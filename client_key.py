@@ -10,8 +10,8 @@ except socket.error:
     print 'Failed to create socket'
     sys.exit()
 
-#HOST = "192.168.0.15"
-HOST = "127.0.0.1"
+HOST = "192.168.0.15"
+#HOST = "127.0.0.1"
 PORT = 8000
 
 

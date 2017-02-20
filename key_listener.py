@@ -1,6 +1,13 @@
 import socket
 import sys
 import time
+import RPi.GPIO as GPIO
+
+
+GPIO.setmode(GPIO.BCM)
+out_pins = [i for i in range(12,16)]
+for pin in out_pins:
+    GPIO.setup(pin,GPIO.OUT)
 
 try: 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -19,7 +26,8 @@ print 'Socket bind complete'
 
 
 def key_actuator(key_list):
-	print keys
+    GPIO.output(tuple(out_pins),tuple(key_list))
+	
 
 
 while True:
