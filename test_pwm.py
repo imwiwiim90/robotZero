@@ -3,6 +3,7 @@ import sys
 GPIO.setmode(GPIO.BCM)
 GPIO.setup(12, GPIO.OUT)
 GPIO.setup(13, GPIO.OUT)
+GPIO.output(13,1)
 p = GPIO.PWM(12)
 p.start(100)
 while True:
