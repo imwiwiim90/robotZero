@@ -39,6 +39,7 @@ print 'Socket bind complete'
 
 
 def key_actuator(key_list):
+	print current_dutyCycle
     for pwm,key in zip(pwms,key_list):
         if key == 0:
             pwm.ChangeDutyCycle(0)
@@ -76,6 +77,5 @@ while True:
         pins = [0,0,0,0]
         # everything zero
     print pins
-    print current_dutyCycle
     key_actuator(pins)
 
