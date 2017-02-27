@@ -6,7 +6,7 @@ import json
 
 
 GPIO.setmode(GPIO.BCM)
-out_pins = [i for i in range(12,14)]
+out_pins = [i for i in range(12,16)]
 """
 12 -> left - front
 13 -> left - back
@@ -43,7 +43,7 @@ def key_actuator(key_list):
         if key == 0:
             pwm.ChangeDutyCycle(0)
         else:
-            pwm.ChangeDutyCycle(50)
+            pwm.ChangeDutyCycle(20)
     GPIO.output(tuple(out_pins),tuple(key_list))
 	
 
