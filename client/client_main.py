@@ -9,7 +9,7 @@ lock = threading.Lock()
 
 ctrl = PS4Controller(lock,1/6.0)
 mailer = MessageUDP()
-mailer.set_destination('127.0.0.1',8000)
+mailer.set_destination('192.168.0.15',8000)
 
 ctrl.start()
 
