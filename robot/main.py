@@ -20,7 +20,7 @@ for pin in out_pins:
 pwms = [GPIO.PWM(pin,15) for pin in out_pins]
 for pwm in pwms:
     pwm.start(0)
-    p.ChangeFrequency(15)
+    pwm.ChangeFrequency(15)
 
 try: 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -51,8 +51,8 @@ def key_actuator(key_list):
 while True:
     msg, addr = s.recvfrom(2048)
     keys = json.loads(msg)
-    y_arrow = keys[u"hat"][u"0"][1]
-    x_arrow = keys[u"hat"][u"0"][0]
+    y_arrow = keys[u'hat'][u"0"][1]
+    x_arrow = keys[u'hat'][u"0"][0]
     pins = [0,0,0,0]
 
     if keys[u'buttons']['5'] == True:
