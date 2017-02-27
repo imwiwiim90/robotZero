@@ -88,6 +88,7 @@ while True:
     	for k in keys:
     		if keys[k] != prev_keylist[k]:
     			change_todo = True
+    prev_keylist = keys
     if change_todo:
     	key_actuator(pins)
 
