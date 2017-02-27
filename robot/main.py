@@ -39,6 +39,7 @@ print 'Socket bind complete'
 
 
 def key_actuator(key_list):
+	print current_dutyCycle
     for pwm,key in zip(pwms,key_list):
     	if key == 0:
     		pwm.ChangeDutyCycle(0)
@@ -51,6 +52,7 @@ prev_keylist = None
 while True:
     msg, addr = s.recvfrom(2048)
     keys = json.loads(msg)
+    keys = {u'hat':keys[u'hat']}
     y_arrow = keys[u'hat'][u"0"][1]
     x_arrow = keys[u'hat'][u"0"][0]
     pins = [0,0,0,0]
