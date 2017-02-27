@@ -37,23 +37,17 @@ except socket.error , msg:
     sys.exit()
 print 'Socket bind complete'
 
-prev_keylist = {}
+
 def key_actuator(key_list):
-	to_change = False
-	for k in key_list:
-		if key_list[k] != prev_keylist[k]:
-			to_change = True
-	prev_keylist = key_list
-	if to_change:
-	    for pwm,key in zip(pwms,key_list):
-	    	if key == 0:
-	    		pwm.ChangeDutyCycle(0)
-	        else:
-	        	pwm.ChangeDutyCycle(current_dutyCycle)
-    GPIO.output(tuple(out_pins),tuple(key_list))
+    for pwm,key in zip(pwms,key_list):
+    	if key == 0:
+    		pwm.ChangeDutyCycle(0)
+        else:
+        	pwm.ChangeDutyCycle(current_dutyCycle)
+	GPIO.output(tuple(out_pins),tuple(key_list))
 	
 
-
+prev_keylist = None
 while True:
     msg, addr = s.recvfrom(2048)
     keys = json.loads(msg)
@@ -82,5 +76,14 @@ while True:
         pins = [0,0,0,0]
         # everything zero
     print pins
-    key_actuator(pins)
+    change_todo = False
+    if prev_keylist == None:
+    	prev_keylist = keys
+    	change_todo = True
+    else:
+    	for k in keys:
+    		if keys[k] != prev_keylist[k]:
+    			change_todo = True
+    if change_todo:
+    	key_actuator(pins)
 
