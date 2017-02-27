@@ -41,10 +41,10 @@ print 'Socket bind complete'
 def key_actuator(key_list):
 	print current_dutyCycle
     for pwm,key in zip(pwms,key_list):
-        if key == 0:
-            pwm.ChangeDutyCycle(0)
+    	if key == 0:
+    		pwm.ChangeDutyCycle(0)
         else:
-            pwm.ChangeDutyCycle(current_dutyCycle)
+        	pwm.ChangeDutyCycle(current_dutyCycle)
     GPIO.output(tuple(out_pins),tuple(key_list))
 	
 
