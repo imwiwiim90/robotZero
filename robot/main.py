@@ -43,6 +43,7 @@ def key_actuator(key_list):
     for pwm,key in zip(pwms,key_list):
     	if key == 0:
     		pwm.ChangeDutyCycle(0)
+			print "changed to zero"
         else:
         	pwm.ChangeDutyCycle(current_dutyCycle)
 	GPIO.output(tuple(out_pins),tuple(key_list))
