@@ -76,5 +76,6 @@ while True:
         pins = [0,0,0,0]
         # everything zero
     print pins
+    print current_dutyCycle
     key_actuator(pins)
 
