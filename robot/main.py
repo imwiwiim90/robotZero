@@ -37,14 +37,19 @@ except socket.error , msg:
     sys.exit()
 print 'Socket bind complete'
 
-
+prev_keylist = {}
 def key_actuator(key_list):
-	print current_dutyCycle
-    for pwm,key in zip(pwms,key_list):
-    	if key == 0:
-    		pwm.ChangeDutyCycle(0)
-        else:
-        	pwm.ChangeDutyCycle(current_dutyCycle)
+	to_change = False
+	for k in key_list:
+		if key_list[k] != prev_keylist[k]:
+			to_change = True
+	prev_keylist = key_list
+	if to_change:
+	    for pwm,key in zip(pwms,key_list):
+	    	if key == 0:
+	    		pwm.ChangeDutyCycle(0)
+	        else:
+	        	pwm.ChangeDutyCycle(current_dutyCycle)
     GPIO.output(tuple(out_pins),tuple(key_list))
 	
 
