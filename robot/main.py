@@ -55,9 +55,9 @@ while True:
     x_arrow = keys[u'hat'][u"0"][0]
     pins = [0,0,0,0]
 
-    if keys[u'buttons']['5'] == True:
+    if keys[u'buttons'][u'5'] == True:
         current_dutyCycle += 1
-    if keys[u'buttons']['4'] == True:
+    if keys[u'buttons'][u'4'] == True:
         current_dutyCycle -= 1
     if current_dutyCycle >= 0:
         current_dutyCycle = 1
