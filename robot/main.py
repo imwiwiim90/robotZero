@@ -59,7 +59,7 @@ while True:
         current_dutyCycle += 1
     if keys[u'buttons'][u'4'] == True:
         current_dutyCycle -= 1
-    if current_dutyCycle >= 0:
+    if current_dutyCycle <= 0:
         current_dutyCycle = 1
     if current_dutyCycle >= 100:
         current_dutyCycle = 100
