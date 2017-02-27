@@ -76,5 +76,5 @@ while True:
         pins = [0,0,0,0]
         # everything zero
     print pins
-	key_actuator(pins)
+    key_actuator(pins)
 
