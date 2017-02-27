@@ -52,7 +52,8 @@ prev_keylist = None
 while True:
     msg, addr = s.recvfrom(2048)
     keys = json.loads(msg)
-    keys = {u'hat':keys[u'hat']}
+    keys = {u'hat':keys[u'hat'],
+    u'buttons':keys[u'buttons']}
     y_arrow = keys[u'hat'][u"0"][1]
     x_arrow = keys[u'hat'][u"0"][0]
     pins = [0,0,0,0]
