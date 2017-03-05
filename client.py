@@ -94,7 +94,8 @@ class FrameUpdater(threading.Thread):
 		self.lock.acquire()
 		ans = np.copy(self.frame)
 		self.lock.release()
-		cv2.imwrite('test.jpg',ans)
+		ans = cv2.imencode('.jpg',ans)[1]
+		ans = cv2.imdecode(ans,cv2.COLOR_BGR2GRAY)
 		return ans
 
  
@@ -127,7 +128,8 @@ except socket.gaierror:
 
 print 'Ip address of ' + host + ' is ' + remote_ip
 '''
-remote_ip = '192.168.0.15'
+#remote_ip = '192.168.0.15'
+remote_ip = '127.0.0.1'
 s.sendto('subscribe', (remote_ip, PORT))
 
 
@@ -143,8 +145,8 @@ for t in threads:
 
 while True:
 	time.sleep(1.0/30)
-	f.get_frame()
-	img = cv2.imread('test.jpg')
+	img = f.get_frame()
+	#img = cv2.imread('test.jpg')
 	cv2.imshow('stream',img)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
