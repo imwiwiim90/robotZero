@@ -1,13 +1,19 @@
 import RPi.GPIO as GPIO
 import sys
+motor_pins = [20,2,3]
+motor_id = 1
+
 GPIO.setmode(GPIO.BCM)
-GPIO.setup(12, GPIO.OUT)
-GPIO.setup(13, GPIO.OUT)
-GPIO.output(13,1)
-p = GPIO.PWM(12)
-p.start(100)
+pwms = []
+for pin in motor_pins:
+	GPIO.setup(pin, GPIO.OUT)
+	pwms.append(GPIO.PWM(pin))
+	pwms[-1].start(100)
+
 while True:
 	try:
+		print "Motor - " + str(motor_id)
+		print "[0] Change Motor"
 		print "[1] Change Frequency"
 		print "[2] Change Duty Cycle"
 		print "[q] quit"
@@ -16,10 +22,12 @@ while True:
 			break
 		if i == "2":
 			pwm = float(raw_input('DUTY CYCLE 0.0 - 100.0: '))
-			p.ChangeDutyCycle(pwm)
+			pwms[i-1].ChangeDutyCycle(pwm)
 		if i == "1":
 			frq = float(raw_input('Frequency: '))
-			p.ChangeFrequency(frq)
+			pwms[i-1].ChangeFrequency(frq)
+		if i == "0":
+			motor_id = int(raw_input('Id: '))
 	except:
 		print "Unexpected error:", sys.exc_info()[0]
 		break
