@@ -6,12 +6,12 @@ import json
 
 
 GPIO.setmode(GPIO.BCM)
-out_pins = [12,13,27,4] 
+out_pins = [12,13,4,27] 
 """
 12 -> left - front
 13 -> left - back
-17 -> right - front
-4 -> right - back
+4 -> right - front
+27 -> right - back
 """
 
 for pin in out_pins:
