@@ -72,11 +72,11 @@ class Agent(object):
 
         if keys[u'arrows'][u'x'] == -1:
             self.set_direction('left')
-        else if keys[u'arrows'][u'x'] == 1:
+        elif keys[u'arrows'][u'x'] == 1:
             self.set_direction('right')
-        else if keys[u'arrows'][u'y'] == -1:
+        elif keys[u'arrows'][u'y'] == -1:
             self.set_direction('left')
-        else if keys[u'arrows'][u'y'] == 1:
+        elif keys[u'arrows'][u'y'] == 1:
             self.set_direction('right')
         else:
             self.set_direction('steady')
