@@ -5,11 +5,16 @@ import sys  #for exit
 import camera
 import time
 import random
+import threading
 from thread import *
 
 CHUNK_SIZE = 4096
 
+# tr   5 1
+# echo 6 1
 
+# tr     19 2
+# echo   26 2
 cam = camera.VideoCamera()
 if cam.video.isOpened():
 	print "camera connected successfully"
@@ -73,13 +78,9 @@ except socket.error , msg:
     sys.exit()
 print 'Socket bind complete'
 
-msg, addr = s.recvfrom(CHUNK_SIZE)
-print 'ip: ' + addr[0] + " : " + str(addr[1])
-if (msg == 'subscribe'):
-	subscribers.append(addr)
 
 class SocketListener(threading.Thread):
-	def ___init__(self,_socket,lock,limit=10):
+	def __init__(self,_socket,lock,limit=10):
 		threading.Thread.__init__(self)
 		self.sckt = _socket
 		self.ips = {}
@@ -89,13 +90,15 @@ class SocketListener(threading.Thread):
 	def run(self):
 		while True:
 			msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
-			ip = addr[0] + ":" + addr[1]
+			ip = str(addr[0]) + ":" + str(addr[1])
+			print ip
 			if not (ip in self.ips.keys()):
+				lock.acquire()
+				print "new subscriber: " + ip
 				if len(self.ips) == self.limit:
-					lock.acquire()
 					self.ips.pop(ip,None)
-					self.ips[ip] = addr
-					lock.release()
+				self.ips[ip] = addr
+				lock.release()
 
 
 
@@ -106,6 +109,7 @@ host = ''
 #start_new_thread(receiver_thread,(subcribers,) )
 lock = threading.Lock()
 skt_manager = SocketListener(s,lock,limit=2)
+skt_manager.start()
 while True:
 	time.sleep(1.0/30)
 	chunks = cam.get_image_slides()
@@ -113,8 +117,8 @@ while True:
 	lock.acquire()
 	ips = skt_manager.ips
 	for chunk in chunks:
-		for subs in subscribers:
-			s.sendto(chunk , subs)
+		for ip in ips.keys():
+			s.sendto(chunk , ips[ip])
 	lock.release()
 
 
