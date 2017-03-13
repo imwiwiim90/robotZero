@@ -8,7 +8,6 @@ if output == 'ref.willy\n':
 	subprocess.call(['git','reset','--hard'])
 	subprocess.call(['git','pull','origin','master'])
 	subprocess.call(['python','robot/main.py'])
-	subprocess.call(['rm','ref.willy'])
 else:
 	pass
 
