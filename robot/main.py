@@ -51,15 +51,15 @@ prev_keylist = None
 while True:
     msg, addr = s.recvfrom(2048)
     keys = json.loads(msg)
-    keys = {u'hat':keys[u'hat'],
+    keys = {u'arrows':keys[u'arrows'],
     u'buttons':keys[u'buttons']}
-    y_arrow = keys[u'hat'][u"0"][1]
-    x_arrow = keys[u'hat'][u"0"][0]
+    y_arrow = keys[u'arrows'][1]
+    x_arrow = keys[u'arrows'][0]
     pins = [0,0,0,0]
 
-    if keys[u'buttons'][u'5'] == True:
+    if keys[u'buttons'][u'R1'] == True:
         current_dutyCycle += 1
-    if keys[u'buttons'][u'4'] == True:
+    if keys[u'buttons'][u'L1'] == True:
         current_dutyCycle -= 1
     if current_dutyCycle <= 0:
         current_dutyCycle = 1
