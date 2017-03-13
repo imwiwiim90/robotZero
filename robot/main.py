@@ -53,8 +53,8 @@ while True:
     keys = json.loads(msg)
     keys = {u'arrows':keys[u'arrows'],
     u'buttons':keys[u'buttons']}
-    y_arrow = keys[u'arrows'][u'1']
-    x_arrow = keys[u'arrows'][u'0']
+    y_arrow = keys[u'arrows'][u'y'] 
+    x_arrow = keys[u'arrows'][u'x']
     pins = [0,0,0,0]
 
     if keys[u'buttons'][u'R1'] == True:
