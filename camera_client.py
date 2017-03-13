@@ -78,22 +78,44 @@ print 'ip: ' + addr[0] + " : " + str(addr[1])
 if (msg == 'subscribe'):
 	subscribers.append(addr)
 
+class SocketListener(threading.Thread):
+	def ___init__(self,_socket,lock,limit=10):
+		threading.Thread.__init__(self)
+		self.sckt = _socket
+		self.ips = {}
+		self.limit = limit
 
 
-     
+	def run(self):
+		while True:
+			msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
+			ip = addr[0] + ":" + addr[1]
+			if not (ip in self.ips.keys()):
+				if len(self.ips) == self.limit:
+					lock.acquire()
+					self.ips.pop(ip,None)
+					self.ips[ip] = addr
+					lock.release()
+
+
 
 #print 'Ip address of ' + host + ' is ' + remote_ip
 host = ''
 #host = '190.27.88.19'
 #port = 5000
 #start_new_thread(receiver_thread,(subcribers,) )
+lock = threading.Lock()
+skt_manager = SocketListener(s,lock,limit=2)
 while True:
 	time.sleep(1.0/30)
 	chunks = cam.get_image_slides()
 	random.shuffle(chunks)
+	lock.acquire()
+	ips = skt_manager.ips
 	for chunk in chunks:
 		for subs in subscribers:
 			s.sendto(chunk , subs)
+	lock.release()
 
 
 

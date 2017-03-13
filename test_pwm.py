@@ -1,14 +1,14 @@
 import RPi.GPIO as GPIO
 import sys
-motor_pins = [20,2,3]
+motor_pins = [20,18,21]
 motor_id = 1
 
 GPIO.setmode(GPIO.BCM)
 pwms = []
 for pin in motor_pins:
 	GPIO.setup(pin, GPIO.OUT)
-	pwms.append(GPIO.PWM(pin))
-	pwms[-1].start(100)
+	pwms.append(GPIO.PWM(pin,50))
+	pwms[-1].start(2)
 
 while True:
 	try:
