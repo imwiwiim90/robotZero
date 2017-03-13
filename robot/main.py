@@ -32,7 +32,7 @@ class Agent(object):
             pwm.ChangeFrequency(15)
         
     def set_direction(self,direction,hard=False):
-        if self.direction == direction && not hard:
+        if self.direction == direction and not hard:
             return
         if direction == "left":
             dcycle = [0,1,1,0]
