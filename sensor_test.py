@@ -8,9 +8,10 @@ ECHO = 0
 GPIO.setup(TRIG,GPIO.OUT)
 GPIO.setup(ECHO,GPIO.IN)
 
+GPIO.output(TRIG,0)
+time.sleep(2)
 while True:
-	GPIO.output(TRIG,0)
-	time.sleep(2)
+	
 
 	GPIO.output(TRIG,1)
 	time.sleep(0.00001)

@@ -1,4 +1,6 @@
 Traceback (most recent call last):
-  File "<stdin>", line 1, in <module>
-NameError: name 'P' is not defined
-
+  File "robot/main.py", line 126, in <module>
+    video_broad = VideoBroadcast(camera.VideoCamera(),limit=2)
+  File "robot/main.py", line 96, in __init__
+    self.lock = Threading.Lock()
+NameError: global name 'Threading' is not defined

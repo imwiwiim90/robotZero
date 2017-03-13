@@ -64,9 +64,10 @@ class UDPreceiver(threading.Thread):
 	def run(self):
 		while True:
 			msg , addr = self.socket.recvfrom(CHUNK_SIZE)
-			self.lock.acquire()
-			self.chunks.append(msg)
-			self.lock.release()
+			if msg[0:2] == chr(0) + chr(0): # video msg
+				self.lock.acquire()
+				self.chunks.append(msg[2:])
+				self.lock.release()
 
 	def retrieve(self):
 		self.lock.acquire()
@@ -98,7 +99,24 @@ class FrameUpdater(threading.Thread):
 		ans = cv2.imdecode(ans,cv2.COLOR_BGR2GRAY)
 		return ans
 
- 
+
+class Video(object):
+	def __init__(self,sckt,ip,port):
+		lock = threading.Lock()
+		u = UDPreceiver(sckt,lock)
+		img_manager = ImageManager(u,lock)
+		f = FrameUpdater(lock,img_manager)
+		self.threads = [ u , f , img_manager]
+
+
+	def getFrame(self):
+		return self.threads[1].get_frame()
+
+	def start(self):
+		for t in self.threads:
+			t.start()
+
+"""
 # create dgram udp socket
 try:
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -133,7 +151,6 @@ remote_ip = '127.0.0.1'
 s.sendto('subscribe', (remote_ip, PORT))
 
 
-
 lock = threading.Lock()
 u  = UDPreceiver(s,lock)
 img_manager = ImageManager(u,lock)
@@ -154,5 +171,5 @@ while True:
 for t in threads:
 	t.join()
 
-
+"""
     

@@ -65,7 +65,7 @@ except socket.gaierror:
 '''
 #def receiver_thread(subs):
 
-PORT = 5000
+PORT = 8000
 HOST = ''
 
 # Bind socket to local host and port
@@ -91,7 +91,7 @@ class SocketListener(threading.Thread):
 		while True:
 			msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
 			ip = str(addr[0]) + ":" + str(addr[1])
-			print ip
+			print msg
 			if not (ip in self.ips.keys()):
 				lock.acquire()
 				print "new subscriber: " + ip
@@ -111,14 +111,14 @@ lock = threading.Lock()
 skt_manager = SocketListener(s,lock,limit=2)
 skt_manager.start()
 while True:
-	time.sleep(1.0/30)
-	chunks = cam.get_image_slides()
+	time.sleep(1.0/30.0)
+	chunks = cam.get_image_slides() # video
 	random.shuffle(chunks)
 	lock.acquire()
 	ips = skt_manager.ips
 	for chunk in chunks:
 		for ip in ips.keys():
-			s.sendto(chunk , ips[ip])
+			s.sendto(chr(0)+chr(0)+chunk , ips[ip]) #video type
 	lock.release()
 
 
