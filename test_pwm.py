@@ -22,10 +22,10 @@ while True:
 			break
 		if i == "2":
 			pwm = float(raw_input('DUTY CYCLE 0.0 - 100.0: '))
-			pwms[i-1].ChangeDutyCycle(pwm)
+			pwms[motor_id-1].ChangeDutyCycle(pwm)
 		if i == "1":
 			frq = float(raw_input('Frequency: '))
-			pwms[i-1].ChangeFrequency(frq)
+			pwms[motor_id-1].ChangeFrequency(frq)
 		if i == "0":
 			motor_id = int(raw_input('Id: '))
 	except:
