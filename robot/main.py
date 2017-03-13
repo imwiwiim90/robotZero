@@ -58,11 +58,11 @@ while True:
     pins = [0,0,0,0]
 
     if keys[u'buttons'][u'X'] == True:
-        GPIO.output(12, 1)
         GPIO.output(14, 1)
+        GPIO.output(12, 1)
     else:
-        GPIO.output(12, 0)
         GPIO.output(14, 0)
+        GPIO.output(12, 0)
     continue
 
     if keys[u'buttons'][u'R1'] == True:
