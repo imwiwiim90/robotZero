@@ -57,15 +57,6 @@ while True:
     x_arrow = keys[u'arrows'][u'x']
     pins = [0,0,0,0]
 
-    if keys[u'buttons'][u'X'] == True:
-        for pin in out_pins:
-            GPIO.output(pin, 1)
-    else:
-        for pin in out_pins:
-            GPIO.output(pin, 0)
-
-    continue
-
     if keys[u'buttons'][u'R1'] == True:
         current_dutyCycle += 1
     if keys[u'buttons'][u'L1'] == True:
