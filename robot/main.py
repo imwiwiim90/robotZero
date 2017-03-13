@@ -53,7 +53,7 @@ class Agent(object):
         self.direction = direction
 
     def change_velocity(self,direction):
-        if direction == "up"
+        if direction == "up":
             self.speed += 1
         else:
             self.speed -= 1
