@@ -17,10 +17,10 @@ out_pins = [i for i in range(12,16)]
 for pin in out_pins:
     GPIO.setup(pin,GPIO.OUT)
 
-pwms = [GPIO.PWM(pin,15) for pin in out_pins]
-for pwm in pwms:
-    pwm.start(0)
-    pwm.ChangeFrequency(15)
+#pwms = [GPIO.PWM(pin,15) for pin in out_pins]
+#for pwm in pwms:
+#    pwm.start(0)
+#    pwm.ChangeFrequency(15)
 
 try: 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -56,6 +56,14 @@ while True:
     y_arrow = keys[u'arrows'][u'y'] 
     x_arrow = keys[u'arrows'][u'x']
     pins = [0,0,0,0]
+
+    if keys[u'buttons'][u'X'] == True:
+        GPIO.output(12, 1)
+        GPIO.output(14, 1)
+    else:
+        GPIO.output(12, 0)
+        GPIO.output(14, 0)
+    continue
 
     if keys[u'buttons'][u'R1'] == True:
         current_dutyCycle += 1
