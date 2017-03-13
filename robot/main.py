@@ -141,8 +141,8 @@ class VideoBroadcast(threading.Thread):
     def set_socket(self,skt):
         self.sckt = skt
 
-error_file = open('error.log','w')
-sys.stderr = error_file
+#error_file = open('error.log','w')
+#sys.stderr = error_file
 
 key_m = Agent()
 video_broad = VideoBroadcast(camera.VideoCamera(),limit=2)
