@@ -65,6 +65,7 @@ class Agent(object):
 
 
     def setKeys(self,keys):
+        print keys
         if keys[u'buttons'][u'R1']:
             self.change_velocity('up')
         if keys[u'buttons'][u'L1']:
