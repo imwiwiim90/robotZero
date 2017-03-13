@@ -1,7 +1,7 @@
 import socket
 import sys
 import time
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 import json
 import camera
 import threading
