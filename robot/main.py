@@ -45,7 +45,7 @@ class Agent(object):
         if direction == "steady":
             dcycle = [0,0,0,0]
 
-        for pwm,i in zip(pwms,dcycle):
+        for pwm,i in zip(self.pwms,dcycle):
             if i == 0:
                 pwm.ChangeDutyCycle(0)
             else:
