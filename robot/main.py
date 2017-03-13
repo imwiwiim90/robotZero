@@ -48,6 +48,8 @@ def key_actuator(key_list):
 	
 
 prev_keylist = None
+error_file = open('error.log','w')
+sys.stderr = error_file
 while True:
     msg, addr = s.recvfrom(2048)
     keys = json.loads(msg)
