@@ -17,10 +17,10 @@ out_pins = [12,13,27,4]
 for pin in out_pins:
     GPIO.setup(pin,GPIO.OUT)
 
-#pwms = [GPIO.PWM(pin,15) for pin in out_pins]
-#for pwm in pwms:
-#    pwm.start(0)
-#    pwm.ChangeFrequency(15)
+pwms = [GPIO.PWM(pin,15) for pin in out_pins]
+for pwm in pwms:
+    pwm.start(0)
+    pwm.ChangeFrequency(15)
 
 try: 
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
