@@ -16,6 +16,7 @@ ctrl.start()
 while True:
 	time.sleep(1/60.0)
 	message = ctrl.getKeys()
+	#print message
 	mailer.send(json.dumps(message))
 
 

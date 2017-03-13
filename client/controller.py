@@ -37,10 +37,13 @@ class PS4Controller(threading.Thread):
     def init(self):
         """Initialize the joystick components"""
         threading.Thread.__init__(self)
+        self.axis_data = { i:0 for i in range(6)}
+        self.button_data = { i:0 for i in range(12)}
         pygame.init()
         pygame.joystick.init()
         self.controller = pygame.joystick.Joystick(0)
         self.controller.init()
+
 
     def run(self):
         """Listen for events to happen"""
@@ -83,8 +86,34 @@ class PS4Controller(threading.Thread):
     def setKeys(self):
         self.lock.acquire()
         self.keys = { 
-            "buttons" : self.button_data,
-            "axis": self.axis_data,
-            "hat" : self.hat_data,
+            #"buttons" : self.button_data,
+            "arrows" : {
+                "x" : self.hat_data[0][0],
+                "y" : self.hat_data[0][1],
+            },
+            "joysticks" : {
+                "left" : {
+                    "x" : self.axis_data[0],
+                    "y" : -self.axis_data[1],
+                },
+                "right" : {
+                    "x" : self.axis_data[2],
+                    "y" : -self.axis_data[3],
+                },
+            },
+            "back_buttons" : {
+                "L" : self.axis_data[4]+1,
+                "R" : self.axis_data[5]+1,
+            },
+            "buttons" : {
+                "X" : self.button_data[1],
+                "O" : self.button_data[2],
+                "T" : self.button_data[3],
+                "S" : self.button_data[0],
+                "L1" : self.button_data[4],
+                "R1" : self.button_data[5],
+                "R2" : self.button_data[7],
+                "R3" : self.button_data[11],
+            }
         }
         self.lock.release()
