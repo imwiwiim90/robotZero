@@ -6,7 +6,7 @@ import json
 
 
 GPIO.setmode(GPIO.BCM)
-out_pins = [i for i in range(12,16)]
+out_pins = [i for i in range(12,16)] + [4, 5]
 """
 12 -> left - front
 13 -> left - back
@@ -59,10 +59,15 @@ while True:
 
     if keys[u'buttons'][u'X'] == True:
         GPIO.output(14, 1)
+        GPIO.output(5, 1)
+        GPIO.output(4, 1)
         GPIO.output(12, 1)
     else:
         GPIO.output(14, 0)
         GPIO.output(12, 0)
+        GPIO.output(4, 0)
+        GPIO.output(5, 0)
+        
     continue
 
     if keys[u'buttons'][u'R1'] == True:
