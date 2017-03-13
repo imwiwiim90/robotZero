@@ -21,7 +21,7 @@ CHUNK_SIZE = 4096
 class Agent(object):
     def __init__(self):
         GPIO.setmode(GPIO.BCM)
-        self.direction = steady
+        self.direction = 'steady'
         out_pins = [12,13,4,27]
         self.speed = 0
         for pin in out_pins:
@@ -75,9 +75,9 @@ class Agent(object):
         elif keys[u'arrows'][u'x'] == 1:
             self.set_direction('right')
         elif keys[u'arrows'][u'y'] == -1:
-            self.set_direction('left')
+            self.set_direction('back')
         elif keys[u'arrows'][u'y'] == 1:
-            self.set_direction('right')
+            self.set_direction('front')
         else:
             self.set_direction('steady')
 
