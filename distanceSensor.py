@@ -5,6 +5,7 @@ import threading
 class SDistance(threading.Thread):
 	def __init__(self,trig_pin,echo_pin):
 		threading.Thread.__init__(self)
+		GPIO.setmode(GPIO.BCM)
 		self.echo = echo_pin
 		self.trig = trig_pin
 		GPIO.setup(trig_pin,GPIO.OUT)

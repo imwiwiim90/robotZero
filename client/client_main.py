@@ -11,9 +11,9 @@ lock = threading.Lock()
 
 ctrl = PS4Controller()
 mailer = MessageUDP()
-mailer.set_destination('192.168.0.15',8000)
+mailer.set_destination('192.168.0.105',8000)
 #mailer.set_destination('127.0.0.1',8000)
-video = Video(mailer.socket,'192.168.0.15',8000)
+video = Video(mailer.socket,'192.168.0.105',8000)
 
 video.start()
 
