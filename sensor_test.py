@@ -18,6 +18,7 @@ while True:
 	GPIO.output(TRIG,False)
 
 	time_flag = time.time()
+	pulse_start = time.time()
 	while GPIO.input(ECHO) == 0:
 		pulse_start = time.time()
 		if pulse_start - time_flag > 2:
