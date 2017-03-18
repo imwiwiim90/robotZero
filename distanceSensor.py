@@ -23,7 +23,7 @@ class SDistance(threading.Thread):
 			time.sleep(0.00001)
 			GPIO.output(TRIG,False)
 
-			GPIO.wait_for_edge(ECHO, GPIO.RISING)
+			GPIO.wait_for_edge(ECHO, GPIO.RISING, timeout=1)
 			pulse_start = time.time()
 
 			GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=6)
