@@ -42,6 +42,7 @@ class SDistance(threading.Thread):
 
 
 tDistance = SDistance(5,6)
+tDistance.run()
 while True:
 	time.sleep(100)
 	print tDistance.get()
