@@ -16,8 +16,8 @@ class SDistance(threading.Thread):
 
 
 	def run(self):
-		TRIG = self.trig_pin
-		ECHO = self.echo_pin
+		TRIG = self.trig
+		ECHO = self.echo
 		while True:
 			GPIO.output(TRIG,1)
 			time.sleep(0.00001)
