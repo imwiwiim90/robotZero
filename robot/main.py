@@ -214,7 +214,6 @@ skt_manager = SocketListener(8000,data_broadcast,key_m)
 distance1 = SDistance(5,6)
 distance2 = SDistance(19,26)
 
-sensors.start()
 skt_manager.start()
 video_broad.start()
 distance1.start()
@@ -231,6 +230,5 @@ while True:
     lock.release()
 
 
-sensors.join()
 skt_manager.join()
 video_broad.join()
