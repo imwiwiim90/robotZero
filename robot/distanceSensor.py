@@ -13,7 +13,7 @@ class SDistance(threading.Thread):
 
 		GPIO.output(trig_pin,0)
 		time.sleep(0.5)
-		self.distace = 0
+		self.distance = 0
 
 
 	def run(self):
