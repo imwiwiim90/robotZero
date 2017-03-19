@@ -35,7 +35,7 @@ class Agent(object):
         # servos
         self.servos = [{"pin":pin} for pin in [20,21]]
         for serv in self.servos:
-            GPIO.setup(pin,GPIO.OUT)
+            GPIO.setup(serv["pin"],GPIO.OUT)
             serv["pwm"] = GPIO.PWM(serv["pin"],50)
             serv["pwm"].start(5.5)
             serv["dcycle"] = 5.5
