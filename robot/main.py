@@ -150,6 +150,7 @@ class SocketListener(threading.Thread):
     def run(self):
         while True:
             msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
+            print msg
             self.bcast.addIP(addr)
             self.km.setKeys(json.loads(msg))
 
