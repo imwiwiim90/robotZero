@@ -31,6 +31,16 @@ class Agent(object):
         for pwm in self.pwms:
             pwm.start(self.speed)
             pwm.ChangeFrequency(15)
+
+        # servos
+        self.servos = [{"pin":pin} for pin in [20,21]]
+        for serv in self.servos:
+            GPIO.setup(pin,GPIO.OUT)
+            serv["pwm"] = GPIO.PWM(serv["pin"],50)
+            serv["pwm"].start(5.5)
+            serv["dcycle"] = 5.5
+
+
         
     def set_direction(self,direction,hard=False):
         if self.direction == direction and not hard:
@@ -64,7 +74,6 @@ class Agent(object):
         if self.speed < 0:
             self.speed = 0
 
-
     def setKeys(self,keys):
         if keys[u'buttons'][u'R1']:
             self.change_velocity('up')
@@ -81,6 +90,24 @@ class Agent(object):
             self.set_direction('front')
         else:
             self.set_direction('steady')
+
+        self.setServo(0,keys[u'back_buttons'][u'L'])
+        self.setServo(1,keys[u'back_buttons'][u'R'])
+
+    def setServo(self,servo,val):
+        dcycle = val*8.5/2.0 + 2
+        dcycle = int(dcycle*2)/2.0
+
+        lastv = self.servos[servo]['dcycle']
+        if lastv != dcycle:
+            self.servos['pwm'].ChangeDutyCycle(dcycle)
+            self.servos[servo]['dcycle'] = dcycle
+
+
+
+# TODO
+# if can detect rising edge while PWM
+
 
 class KeyMTest(object):
     def __init__(self):
@@ -183,7 +210,6 @@ key_m = Agent()
 data_broadcast = DataBroadcast(limit=10)
 video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
 skt_manager = SocketListener(8000,data_broadcast,key_m)
-sensors = SensorTest(data_broadcast)
 
 distance1 = SDistance(5,6)
 distance2 = SDistance(19,26)
@@ -196,14 +222,14 @@ distance2.start()
 
 while True:
     time.sleep(1/30.0)
+    sensor_data = {
+        "left" :  distance1.get(),
+        "right" : distance2.get(),
+    }
     lock.acquire()
-    d = distance1.get()
-    data_broadcast.sendData(str(d),'sensor')
+    data_broadcast.sendData(json.dumps(sensor_data),'sensor')
     lock.release()
-    lock.acquire()
-    d = distance2.get()
-    data_broadcast.sendData(str(d),'sensor')
-    lock.release()
+
 
 sensors.join()
 skt_manager.join()

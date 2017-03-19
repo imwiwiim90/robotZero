@@ -8,8 +8,8 @@ import time
 
 lock = threading.Lock()
 
-#ip_dir = '192.168.0.110'
-ip_dir = '127.0.0.1'
+ip_dir = '192.168.0.110'
+#ip_dir = '127.0.0.1'
 
 ctrl = PS4Controller()
 mailer = MessageUDP()
