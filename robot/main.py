@@ -148,6 +148,7 @@ class SocketListener(threading.Thread):
         self.bcast.set_socket(s)
 
     def run(self):
+        print 'listening'
         while True:
             msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
             print msg
@@ -229,6 +230,7 @@ while True:
     lock.acquire()
     data_broadcast.sendData(json.dumps(sensor_data),'sensor')
     lock.release()
+    print sensor_data
 
 
 skt_manager.join()
