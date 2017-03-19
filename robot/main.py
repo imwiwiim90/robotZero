@@ -91,10 +91,19 @@ class Agent(object):
         else:
             self.set_direction('steady')
 
+        self.lockServo(keys[u'buttons'][u'X'])
+
         self.setServo(0,keys[u'back_buttons'][u'L'])
         self.setServo(1,keys[u'back_buttons'][u'R'])
 
+    def lockServo(self,lock):
+        self.serv_lock = lock
+
     def setServo(self,servo,val):
+
+        if self.serv_lock == True:
+            return
+
         dcycle = val*8.5/2.0 + 2
         dcycle = int(dcycle*2)/2.0
 
