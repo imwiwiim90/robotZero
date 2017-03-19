@@ -44,7 +44,3 @@ class PS4Controller(object):
 		j.close()
 		return keys
 
-ps4 = PS4Controller()
-while True:
-	time.sleep(0.1)
-	print ps4.getKeys()
