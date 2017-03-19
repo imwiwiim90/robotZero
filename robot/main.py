@@ -148,10 +148,8 @@ class SocketListener(threading.Thread):
         self.bcast.set_socket(s)
 
     def run(self):
-        print 'listening'
         while True:
             msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
-            print msg
             self.bcast.addIP(addr)
             self.km.setKeys(json.loads(msg))
 
@@ -203,6 +201,13 @@ class DataBroadcast(object):
     def set_socket(self,skt):
         self.sckt = skt
 
+class DistanceTest(object):
+    def __init__(self):
+        pass
+    def get(self):
+        return 12
+    def start(self):
+        pass
 
 #error_file = open('error.log','w')
 #sys.stderr = error_file
@@ -215,6 +220,8 @@ skt_manager = SocketListener(8000,data_broadcast,key_m)
 
 distance1 = SDistance(5,6)
 distance2 = SDistance(19,26)
+#distance1 = DistanceTest()
+#distance2 = DistanceTest()
 
 skt_manager.start()
 video_broad.start()
