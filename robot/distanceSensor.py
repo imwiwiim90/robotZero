@@ -23,14 +23,20 @@ class SDistance(threading.Thread):
 			time.sleep(0.00001)
 			GPIO.output(TRIG,False)
 
-			GPIO.wait_for_edge(ECHO, GPIO.RISING, timeout=1)
+			time_flag = time.time()
 			pulse_start = time.time()
+			while GPIO.input(ECHO) == 0:
+				pulse_start = time.time()
+				if pulse_start - time_flag > 2:
+					break
 
-			GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=6)
-			pulse_end = time.time()
-			pulse = pulse_end - pulse_start
-			distance = pulse*17150
-
+			distance = 0
+			while GPIO.input(ECHO) == 1:
+				pulse_end = time.time()
+				pulse = pulse_end - pulse_start
+				distance = pulse*17150
+				if distance > 100:
+					break
 			self.distance = distance
 
 
