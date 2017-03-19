@@ -100,7 +100,7 @@ class Agent(object):
 
         lastv = self.servos[servo]['dcycle']
         if lastv != dcycle:
-            self.servos['pwm'].ChangeDutyCycle(dcycle)
+            self.servos[servo]['pwm'].ChangeDutyCycle(dcycle)
             self.servos[servo]['dcycle'] = dcycle
 
 
