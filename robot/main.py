@@ -7,6 +7,7 @@ import camera
 import threading
 import random
 from distanceSensor import *
+import os
 
 CHUNK_SIZE = 4096
 
@@ -90,6 +91,10 @@ class Agent(object):
             self.set_direction('front')
         else:
             self.set_direction('steady')
+
+        if keys[u'buttons'][u'PLAY']:
+            # system shutdown
+            os.system("sudo shutdown -h now")
 
         self.lockServo(keys[u'buttons'][u'X'])
 

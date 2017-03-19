@@ -37,10 +37,14 @@ class PS4Controller(object):
                 "R1" : j.buttons[5],
                 "R2" : j.buttons[7],
                 "R3" : j.buttons[11],
+                "PLAY" : j.buttons[12],
             },
 		}
 
 		j.close()
 		return keys
 
-
+ps4 = PS4Controller()
+while True:
+	time.sleep(0.1)
+	print ps4.getKeys()
