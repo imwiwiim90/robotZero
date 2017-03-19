@@ -181,10 +181,10 @@ class VideoBroadcast(threading.Thread):
             time.sleep(1.0/30.0)
             chunks = self.cam.get_image_slides() # video
             random.shuffle(chunks)
+            self.lock.acquire()
             for chunk in chunks:
-                self.lock.acquire()
                 self.bcast.sendData(chunk,'video')
-                self.lock.release()
+            self.lock.release()
 
     def set_socket(self,skt):
         self.sckt = skt
@@ -228,7 +228,7 @@ class DistanceTest(object):
 lock = threading.Lock()
 key_m = Agent()
 #key_m = KeyMTest()
-data_broadcast = DataBroadcast(limit=10)
+data_broadcast = DataBroadcast(limit=1)
 video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
 skt_manager = SocketListener(8000,data_broadcast,key_m)
 

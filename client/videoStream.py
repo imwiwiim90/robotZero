@@ -93,7 +93,7 @@ class FrameUpdater(threading.Thread):
 			img = np.copy(self.image.get_image())
 			self.lock.release()
 			self.frame = img
-			time.sleep(1.0/30)
+			time.sleep(1.0/15)
 	def get_frame(self):
 		self.lock.acquire()
 		ans = np.copy(self.frame)
