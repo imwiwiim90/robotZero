@@ -15,6 +15,12 @@ CHUNK_SIZE = 4096
 
 # tr     19 2
 # echo   26 2
+
+# servos
+# 21
+# 20
+# 18
+
 cam = camera.VideoCamera()
 if cam.video.isOpened():
 	print "camera connected successfully"

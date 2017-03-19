@@ -6,6 +6,7 @@ import json
 import camera
 import threading
 import random
+from distanceSensor import *
 
 CHUNK_SIZE = 4096
 
@@ -81,12 +82,29 @@ class Agent(object):
         else:
             self.set_direction('steady')
 
+class KeyMTest(object):
+    def __init__(self):
+        pass
+    def setKeys(self,k):
+        pass
+class SensorTest(threading.Thread):
+    def __init__(self,b_dcast):
+        threading.Thread.__init__(self)
+        self.bcast = b_dcast
+
+    def run(self):
+        while True:
+            time.sleep(1/2.0)
+            self.bcast.sendData('hey there','sensor')
+
+
+
 
 
 class SocketListener(threading.Thread):
-    def __init__(self,PORT,video,keys_manager):
+    def __init__(self,PORT,d_bcast,keys_manager):
         threading.Thread.__init__(self)
-        self.video = video
+        self.bcast = d_bcast
         self.km = keys_manager
         try: 
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -100,56 +118,95 @@ class SocketListener(threading.Thread):
             sys.exit()
         print 'Socket bind complete'
         self.sckt = s
-        self.video.set_socket(s)
+        self.bcast.set_socket(s)
 
     def run(self):
         while True:
             msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
-            self.video.addIP(addr)
+            self.bcast.addIP(addr)
             self.km.setKeys(json.loads(msg))
 
             
 class VideoBroadcast(threading.Thread):
-    def __init__(self,camera,limit=10):
+    def __init__(self,camera,lock,d_bcast):
         threading.Thread.__init__(self)
-        self.ips = {}
-        self.limit = limit
         self.cam = camera
-        self.lock = threading.Lock()
+        self.bcast = d_bcast
+        self.lock = lock
+
 
     def run(self):
         while True:
             time.sleep(1.0/30.0)
             chunks = self.cam.get_image_slides() # video
             random.shuffle(chunks)
-            self.lock.acquire()
             for chunk in chunks:
-                for ip in self.ips.keys():
-                    self.sckt.sendto(chr(0)+chr(0)+chunk , self.ips[ip]) #video type
-            self.lock.release()
-
-    def addIP(self,addr):
-        ip = str(addr[0]) + ":" + str(addr[1])
-        if not (ip in self.ips.keys()):
-            self.lock.acquire()
-            if len(self.ips) == self.limit:
-                self.ips.pop(ip,None)
-            self.ips[ip] = addr
-            self.lock.release()
+                self.lock.acquire()
+                self.bcast.sendData(chunk,'video')
+                self.lock.release()
 
     def set_socket(self,skt):
         self.sckt = skt
 
+
+class DataBroadcast(object):
+    def __init__(self,limit=2):
+        self.ips = {}
+        self.limit = limit
+
+
+    def addIP(self,addr):
+        ip = str(addr[0]) + ":" + str(addr[1])
+        if not (ip in self.ips.keys()):
+            if len(self.ips) == self.limit:
+                self.ips.pop(ip,None)
+            self.ips[ip] = addr
+
+    def sendData(self,msg,msg_type):
+        flag = ''
+        if msg_type == 'video':
+            flag = chr(0) + chr(0)
+        if msg_type == 'sensor':
+            flag = chr(0) + chr(1)
+
+        for ip in self.ips.keys():
+            self.sckt.sendto( flag + msg , self.ips[ip])
+    def set_socket(self,skt):
+        self.sckt = skt
+
+
 #error_file = open('error.log','w')
 #sys.stderr = error_file
-
+lock = threading.Lock()
 key_m = Agent()
-video_broad = VideoBroadcast(camera.VideoCamera(),limit=2)
-skt_manager = SocketListener(8000,video_broad,key_m)
+#key_m = KeyMTest()
+data_broadcast = DataBroadcast(limit=10)
+video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
+skt_manager = SocketListener(8000,data_broadcast,key_m)
+sensors = SensorTest(data_broadcast)
 
+distance1 = SDistance(5,6)
+distance2 = SDistance(19,26)
+
+sensors.start()
 skt_manager.start()
 video_broad.start()
+distance1.start()
+distance2.start()
+
+while True:
+    time.sleep(1/30.0)
+    lock.acquire()
+    d = distance1.get()
+    data_broadcast.sendData(str(d),'sensor')
+    lock.release()
+    lock.acquire()
+    d = distance2.get()
+    data_broadcast.sendData(str(d),'sensor')
+    lock.release()
 
 
+while True:
+sensors.join()
 skt_manager.join()
 video_broad.join()

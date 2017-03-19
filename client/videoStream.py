@@ -64,10 +64,13 @@ class UDPreceiver(threading.Thread):
 	def run(self):
 		while True:
 			msg , addr = self.socket.recvfrom(CHUNK_SIZE)
-			if msg[0:2] == chr(0) + chr(0): # video msg
+			flag = msg[0:2]
+			if flag == chr(0) + chr(0): # video msg
 				self.lock.acquire()
 				self.chunks.append(msg[2:])
 				self.lock.release()
+			if flag == chr(0) + chr(1):
+				print msg[2:]
 
 	def retrieve(self):
 		self.lock.acquire()
