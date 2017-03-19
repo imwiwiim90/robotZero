@@ -205,8 +205,6 @@ while True:
     data_broadcast.sendData(str(d),'sensor')
     lock.release()
 
-
-while True:
 sensors.join()
 skt_manager.join()
 video_broad.join()
