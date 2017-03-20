@@ -80,7 +80,6 @@ class Agent(object):
             self.change_velocity('up')
         if keys[u'buttons'][u'L1']:
             self.change_velocity('down')
-
         if keys[u'arrows'][u'x'] == -1:
             self.set_direction('left')
         elif keys[u'arrows'][u'x'] == 1:
@@ -96,6 +95,8 @@ class Agent(object):
             # system shutdown
             os.system("sudo shutdown -h now")
 
+        self.setMovement(keys[u'joysticks'][u'left'][u'x'],keys[u'joysticks'][u'left'][u'y'])
+
         self.lockServo(keys[u'buttons'][u'X'])
 
         self.setServo(0,keys[u'back_buttons'][u'L'])
@@ -105,7 +106,6 @@ class Agent(object):
         self.serv_lock = lock
 
     def setServo(self,servo,val):
-
         if self.serv_lock == True:
             return
 
@@ -116,6 +116,42 @@ class Agent(object):
         if lastv != dcycle:
             self.servos[servo]['pwm'].ChangeDutyCycle(dcycle)
             self.servos[servo]['dcycle'] = dcycle
+
+    def setMovement(self,x,y):
+        y = int((y+1)*5)/5.0 - 1
+        x = int((x+1)*5)/5.0 - 1
+
+        left  = y + x
+        right = y + x
+
+        left =  (1 if left >  1 else left)
+        left =  (1 if left < -1 else left)
+        right = (1 if left < -1 else right)
+        right = (1 if left >  1 else right)
+
+        if left == self.last_left and right == self.last_right:
+            return
+
+        if left != self.last_left:
+            self.last_left = left
+            if left < 0:
+                self.pwms[2].ChangeDutyCycle( 0 )
+                self.pwms[3].ChangeDutyCycle( -left )
+            else:
+                self.pwms[3].ChangeDutyCycle( 0 )
+                self.pwms[2].ChangeDutyCycle( left )
+
+        if right != self.last_right:
+            self.last_right = right
+            if right < 0:
+                self.pwms[0].ChangeDutyCycle( 0 )
+                self.pwms[1].ChangeDutyCycle( -right )
+            else:
+                self.pwms[1].ChangeDutyCycle( 0 )
+                self.pwms[0].ChangeDutyCycle( right )
+                
+
+
 
 
 

@@ -1,6 +1,6 @@
 import RPi.GPIO as GPIO
 import time
-
+#190.14.232.243
 GPIO.setmode(GPIO.BCM)
 TRIG = 15
 ECHO = 16
