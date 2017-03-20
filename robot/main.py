@@ -265,7 +265,7 @@ lock = threading.Lock()
 key_m = Agent()
 #key_m = KeyMTest()
 data_broadcast = DataBroadcast(limit=1)
-video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
+#video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
 skt_manager = SocketListener(8000,data_broadcast,key_m)
 
 distance1 = SDistance(5,6)
@@ -274,7 +274,7 @@ distance2 = SDistance(19,26)
 #distance2 = DistanceTest()
 
 skt_manager.start()
-video_broad.start()
+#video_broad.start()
 distance1.start()
 distance2.start()
 
