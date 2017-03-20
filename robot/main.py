@@ -41,6 +41,9 @@ class Agent(object):
             serv["pwm"].start(5.5)
             serv["dcycle"] = 5.5
 
+        self.last_right = 0
+        self.last_left = 0
+
 
         
     def set_direction(self,direction,hard=False):
