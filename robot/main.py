@@ -128,9 +128,9 @@ class Agent(object):
         right = y + x
 
         left =  (1 if left >  1 else left)
-        left =  (1 if left < -1 else left)
-        right = (1 if left < -1 else right)
-        right = (1 if left >  1 else right)
+        left =  (-1 if left < -1 else left)
+        right = (-1 if right < -1 else right)
+        right = (1 if right >  1 else right)
 
         if left == self.last_left and right == self.last_right:
             return
