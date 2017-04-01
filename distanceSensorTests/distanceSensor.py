@@ -24,7 +24,7 @@ class DistanceSensors(threading.Thread):
 
 
 	def echo_callback(self,channel):
-		self.distance[channel] = (time.time() - time_start[channel])*17150
+		self.distance[channel] = (time.time() - self.time_start[channel])*17150
 
 
 	def run(self):
@@ -38,7 +38,7 @@ class DistanceSensors(threading.Thread):
 			pulse_start = time.time()
 			
 	def get(self,_id):
-		return self.distance[_id]
+		return self.distance[self.ECHO[_id]]
 
 
 tDistance = SDistance((5,19),(6,26))
