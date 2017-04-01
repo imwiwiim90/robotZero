@@ -14,24 +14,12 @@ while True:
 	
 
 	GPIO.output(TRIG,1)
-	time.sleep(0.00001)
+	time.sleep(0.000001)
 	GPIO.output(TRIG,False)
-
-	time_flag = time.time()
 	pulse_start = time.time()
-	timeout = GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=500)
-	pulse_start = time.time()
-	"""
-	while GPIO.input(ECHO) == 0:
-		pulse_start = time.time()
-		if pulse_start - time_flag > 2:
-			break
-	"""
-	if timeout == None:
-		print "first timeout"
-	distance = 0
+	
 
-	timeout = GPIO.wait_for_edge(ECHO, GPIO.RISING, timeout=int(100*1000/(17150)))
+	ans = GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=int(100*1000/(17150)))
 	pulse = time.time() - pulse_start
 	distance = pulse*17150
 
