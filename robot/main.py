@@ -279,7 +279,7 @@ skt_manager = SocketListener(8000,data_broadcast,key_m)
 
 skt_manager.start()
 #video_broad.start()
-distanceSensors.start()
+#distanceSensors.start()
 
 while True:
     time.sleep(1/30.0)
