@@ -27,6 +27,7 @@ GPIO.add_event_callback(ECHO[1], my_callback_two)
 while True:
 	try:
 		print "sending"
+		time_start = (time.time(),time.time())
 		GPIO.output(TRIG,1)
 		time.sleep(0.000001)
 		GPIO.output(TRIG,0)
