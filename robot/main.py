@@ -275,21 +275,17 @@ data_broadcast = DataBroadcast(limit=1)
 #video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
 skt_manager = SocketListener(8000,data_broadcast,key_m)
 
-distance1 = SDistance(5,6)
-distance2 = SDistance(19,26)
-#distance1 = DistanceTest()
-#distance2 = DistanceTest()
+distanceSensors = DistanceSensors((5,19),(6,26))
 
 skt_manager.start()
 #video_broad.start()
-distance1.start()
-distance2.start()
+distanceSensors.start()
 
 while True:
     time.sleep(1/30.0)
     sensor_data = {
-        "left" :  distance1.get(),
-        "right" : distance2.get(),
+        "left" :  distanceSensors.get(0),
+        "right" : distanceSensors.get(1),
         "speed" : key_m.speed,
     }
     lock.acquire()

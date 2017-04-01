@@ -2,20 +2,29 @@ import RPi.GPIO as GPIO
 import time
 import threading
 
-class SDistance(threading.Thread):
-	def __init__(self,trig_pin,echo_pin,N = 5):
+
+class DistanceSensors(threading.Thread):
+	def __init__(self,TRIG,ECHO,N = 5):
 		threading.Thread.__init__(self)
 		GPIO.setmode(GPIO.BCM)
-		self.echo = echo_pin
-		self.trig = trig_pin
-		GPIO.setup(trig_pin,GPIO.OUT)
-		GPIO.setup(echo_pin,GPIO.IN)
+		self.echo = ECHO
+		self.trig = TRIG
+		GPIO.setup(TRIG,GPIO.OUT)
+		GPIO.setup(ECHO,GPIO.IN,pull_up_down=GPIO.PUD_UP)
 
-		GPIO.output(trig_pin,0)
+		GPIO.output(TRIG,0)
 		time.sleep(0.5)
-		self.distance = 0
-		self.data = []
-		self.N = N
+		self.distance = {channel:0 for channel in ECHO}
+		self.time_start = {channel: time.time() for channel in ECHO}
+
+		for echo in ECHO:
+			GPIO.add_event_detect(echo, GPIO.FALLING)
+			GPIO.add_event_callback(echo, self.echo_callback)
+
+
+
+	def echo_callback(self,channel):
+		self.distance[channel] = (time.time() - self.time_start[channel])*17150
 
 
 	def run(self):
@@ -26,38 +35,16 @@ class SDistance(threading.Thread):
 			GPIO.output(TRIG,1)
 			time.sleep(0.000001)
 			GPIO.output(TRIG,False)
-			pulse_start = time.time()
+			self.time_start = {channel: time.time() for channel in ECHO}
 			
-			try:
-				ans = GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=int(100*10000/(17150)))
-			except:
-				continue
-			pulse = time.time() - pulse_start
-			distance = pulse*17150
-			if len(self.data) >= self.N:
-				l = self.data.pop(-1)
-			self.data.append(distance)
-			s = 0
-			for i in self.data:
-				s += i
-			self.distance = s/float(self.N)
-
-
-
-
-
-	def get(self):
-		return self.distance
-
-
+	def get(self,_id):
+		return self.distance[self.echo[_id]]
 
 """
-tDistance = SDistance(5,6)
-tDistance2 = SDistance(19,26)
-tDistance2.start()
+tDistance = DistanceSensors((5,19),(6,26))
 tDistance.start()
 while True:
 	time.sleep(1)
-	print "d1: " + str(tDistance.get())
-	print "d2: " + str(tDistance2.get())
+	print "d1: " + str(tDistance.get(0))
+	print "d2: " + str(tDistance.get(1))
 """
