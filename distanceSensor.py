@@ -15,7 +15,7 @@ class SDistance(threading.Thread):
 		time.sleep(0.5)
 		self.distance = 0
 		self.data = []
-		self.N
+		self.N = N
 
 
 	def run(self):
