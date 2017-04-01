@@ -290,6 +290,7 @@ while True:
     sensor_data = {
         "left" :  distance1.get(),
         "right" : distance2.get(),
+        "speed" : key_m.speed,
     }
     lock.acquire()
     data_broadcast.sendData(json.dumps(sensor_data),'sensor')

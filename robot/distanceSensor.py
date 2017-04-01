@@ -3,7 +3,7 @@ import time
 import threading
 
 class SDistance(threading.Thread):
-	def __init__(self,trig_pin,echo_pin):
+	def __init__(self,trig_pin,echo_pin,N = 5):
 		threading.Thread.__init__(self)
 		GPIO.setmode(GPIO.BCM)
 		self.echo = echo_pin
@@ -14,27 +14,35 @@ class SDistance(threading.Thread):
 		GPIO.output(trig_pin,0)
 		time.sleep(0.5)
 		self.distance = 0
+		self.data = []
+		self.N = N
 
 
 	def run(self):
 		TRIG = self.trig
 		ECHO = self.echo
 		while True:
+			time.sleep(1/30.0)
 			GPIO.output(TRIG,1)
-			time.sleep(0.00001)
+			time.sleep(0.000001)
 			GPIO.output(TRIG,False)
-
-			timeout = GPIO.wait_for_edge(ECHO, GPIO.RISING, timeout=0.1)
 			pulse_start = time.time()
+			
+			try:
+				ans = GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=int(100*10000/(17150)))
+			except:
+				continue
+			pulse = time.time() - pulse_start
+			distance = pulse*17150
+			if len(self.data) >= self.N:
+				l = self.data.pop(-1)
+			self.data.append(distance)
+			s = 0
+			for i in self.data:
+				s += i
+			self.distance = s/float(self.N)
 
-			distance = 0
-			while GPIO.input(ECHO) == 1:
-				pulse_end = time.time()
-				pulse = pulse_end - pulse_start
-				distance = pulse*17150
-				if distance > 100:
-					break
-			self.distance = distance
+
 
 
 
@@ -43,10 +51,13 @@ class SDistance(threading.Thread):
 
 
 
-"""
+
 tDistance = SDistance(5,6)
+tDistance2 = SDistance(19,26)
+tDistance2.start()
 tDistance.start()
 while True:
 	time.sleep(1)
-	print tDistance.get()
-"""
+	print "d1: " + str(tDistance.get())
+	print "d2: " + str(tDistance2.get())
+
