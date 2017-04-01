@@ -18,7 +18,8 @@ def my_callback_one(channel):
 def my_callback_two(channel):
     print "d2:" + str((time.time() - time_start[1])*17150) 
 
-GPIO.add_event_detect(ECHO, GPIO.FALLING)
+GPIO.add_event_detect(ECHO[1], GPIO.FALLING)
+GPIO.add_event_detect(ECHO[0], GPIO.FALLING)
 GPIO.add_event_callback(ECHO[0], my_callback_one)
 GPIO.add_event_callback(ECHO[1], my_callback_two)
 
