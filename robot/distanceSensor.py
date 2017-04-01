@@ -51,7 +51,7 @@ class SDistance(threading.Thread):
 
 
 
-
+"""
 tDistance = SDistance(5,6)
 tDistance2 = SDistance(19,26)
 tDistance2.start()
@@ -60,4 +60,4 @@ while True:
 	time.sleep(1)
 	print "d1: " + str(tDistance.get())
 	print "d2: " + str(tDistance2.get())
-
+"""
