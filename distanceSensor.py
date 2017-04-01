@@ -28,8 +28,10 @@ class SDistance(threading.Thread):
 			GPIO.output(TRIG,False)
 			pulse_start = time.time()
 			
-
-			ans = GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=int(100*1000/(17150)))
+			try:
+				ans = GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=int(100*1000/(17150)))
+			except:
+				pass
 			pulse = time.time() - pulse_start
 			distance = pulse*17150
 			if len(self.data) >= self.N:
