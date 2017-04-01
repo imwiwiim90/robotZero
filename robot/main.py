@@ -253,7 +253,7 @@ class DataBroadcast(object):
             try:
                 self.sckt.sendto( flag + msg , self.ips[ip])
             except socket.error, (no,msg):
-                if no == socket.errorno.ENETUNREACH:
+                if no == socket.errno.ENETUNREACH:
                     pass
     def set_socket(self,skt):
         self.sckt = skt
