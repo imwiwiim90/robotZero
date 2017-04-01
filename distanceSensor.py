@@ -35,7 +35,7 @@ class SDistance(threading.Thread):
 			pulse = time.time() - pulse_start
 			distance = pulse*17150
 			if len(self.data) >= self.N:
-				l = self.data.pop()
+				l = self.data.pop(-1)
 				self.distance -= l
 			self.distance += distance/float(self.N)
 			self.data.append(distance/float(self.N))
