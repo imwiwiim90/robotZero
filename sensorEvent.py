@@ -8,6 +8,7 @@ TRIG = 5
 channel = 6
 
 GPIO.setup(TRIG, GPIO.OUT)
+GPIO.setup(channel,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 def my_callback_one(channel):
     print('Callback one')
@@ -30,7 +31,7 @@ class SDistance(threading.Thread):
 		self.echo = echo_pin
 		self.trig = trig_pin
 		GPIO.setup(trig_pin,GPIO.OUT)
-		GPIO.setup(echo_pin,GPIO.IN)
+		GPIO.setup(echo_pin,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 		GPIO.output(trig_pin,0)
 		time.sleep(0.5)
