@@ -24,12 +24,8 @@ class SDistance(threading.Thread):
 			time.sleep(0.00001)
 			GPIO.output(TRIG,False)
 
-			time_flag = time.time()
+			timeout = GPIO.wait_for_edge(ECHO, GPIO.RISING, timeout=0.1)
 			pulse_start = time.time()
-			while GPIO.input(ECHO) == 0:
-				pulse_start = time.time()
-				if pulse_start - time_flag > 2:
-					break
 
 			distance = 0
 			while GPIO.input(ECHO) == 1:

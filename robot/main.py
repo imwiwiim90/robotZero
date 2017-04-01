@@ -124,7 +124,7 @@ class Agent(object):
         y = int((y+1)*5)/5.0 - 1
         x = int((x+1)*5)/5.0 - 1
 
-        left  = y + x
+        left  = y - x
         right = y + x
 
         left =  (1 if left >  1 else left)
@@ -250,7 +250,11 @@ class DataBroadcast(object):
             flag = chr(0) + chr(1)
 
         for ip in self.ips.keys():
-            self.sckt.sendto( flag + msg , self.ips[ip])
+            try:
+                self.sckt.sendto( flag + msg , self.ips[ip])
+            except socket.error, (no,msg):
+                if no == socket.errorno.ENETUNREACH:
+                    pass
     def set_socket(self,skt):
         self.sckt = skt
 
