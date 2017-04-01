@@ -27,6 +27,8 @@ while True:
 		if pulse_start - time_flag > 2:
 			break
 	"""
+	if timeout == None:
+		print "first timeout"
 	distance = 0
 	if not timeout:
 		timeout = GPIO.wait_for_edge(ECHO, GPIO.FALLING, timeout=int(100*1000/(17150)))
