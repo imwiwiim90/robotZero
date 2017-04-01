@@ -35,13 +35,13 @@ class DistanceSensors(threading.Thread):
 			GPIO.output(TRIG,1)
 			time.sleep(0.000001)
 			GPIO.output(TRIG,False)
-			pulse_start = time.time()
+			self.time_start = {channel: time.time() for channel in ECHO}
 			
 	def get(self,_id):
-		return self.distance[self.ECHO[_id]]
+		return self.distance[self.echo[_id]]
 
 
-tDistance = SDistance((5,19),(6,26))
+tDistance = DistanceSensors((5,19),(6,26))
 tDistance.start()
 while True:
 	time.sleep(1)
