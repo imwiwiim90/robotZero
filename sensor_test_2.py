@@ -19,7 +19,7 @@ while True:
 
 	time_flag = time.time()
 	pulse_start = time.time()
-	timeout = GPIO.wait_for_edge(ECHO, GPIO.RISING, timeout=10)
+	timeout = GPIO.wait_for_edge(ECHO, GPIO.RISING, timeout=500)
 	pulse_start = time.time()
 	"""
 	while GPIO.input(ECHO) == 0:
