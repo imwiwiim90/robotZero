@@ -6,7 +6,7 @@ TRIG = 5
 ECHO = 6
 
 GPIO.setup(TRIG,GPIO.OUT)
-GPIO.setup(ECHO,GPIO.IN)
+GPIO.setup(ECHO,GPIO.IN, pull_up_down=GPIO.PUD_UP)
 
 GPIO.output(TRIG,0)
 time.sleep(2)
