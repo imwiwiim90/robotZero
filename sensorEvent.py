@@ -5,7 +5,7 @@ import threading
 GPIO.setmode(GPIO.BCM)
 
 TRIG = (5,19)
-ECHO = (5,26)
+ECHO = (6,26)
 
 GPIO.setup(TRIG, GPIO.OUT)
 GPIO.setup(ECHO, GPIO.IN, pull_up_down=GPIO.PUD_UP)
