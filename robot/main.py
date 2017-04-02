@@ -88,11 +88,11 @@ class Agent(object):
 
     def setKeys(self,keys):
         if self.in_routine:
-            if keys[u'buttons'] == 'T':
+            if keys[u'buttons']['T']:
                 self.in_routine = False
             else:
                 return
-        if keys[u'buttons'] == "S":
+        if keys[u'buttons'][u"S"]:
             if keys[u'arrows'][u'x'] == -1:
                 self.start_routine("seesaw")
             if keys[u'arrows'][u'x'] == 1:

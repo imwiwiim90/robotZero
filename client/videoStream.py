@@ -113,9 +113,9 @@ class Video(object):
 	def __init__(self,sckt,ip,port):
 		lock = threading.Lock()
 		self.u = UDPreceiver(sckt,lock)
-		img_manager = ImageManager(u,lock)
+		img_manager = ImageManager(self.u,lock)
 		f = FrameUpdater(lock,img_manager)
-		self.threads = [ u , f , img_manager]
+		self.threads = [ self.u , f , img_manager]
 
 
 	def getFrame(self):
