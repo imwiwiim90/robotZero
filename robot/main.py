@@ -88,7 +88,7 @@ class Agent(object):
 
     def setKeys(self,keys):
         if self.in_routine:
-            if keys[u'buttons']['T']:
+            if keys[u'buttons'][u'T']:
                 self.in_routine = False
             else:
                 return
