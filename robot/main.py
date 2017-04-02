@@ -105,6 +105,7 @@ class Agent(object):
                 self.start_routine("test")
 
             return
+
         if keys[u'buttons'][u'R1']:
             self.change_velocity('up')
         if keys[u'buttons'][u'L1']:
@@ -128,8 +129,7 @@ class Agent(object):
 
         self.lockServo(keys[u'buttons'][u'X'])
 
-        self.setServo(0,keys[u'back_buttons'][u'L'])
-        self.setServo(1,keys[u'back_buttons'][u'R'])
+        self.setServo(0,keys[u'back_buttons'][u'R'])
 
     def lockServo(self,lock):
         self.serv_lock = lock
@@ -352,7 +352,7 @@ while True:
     lock.release()
 
     key_m.setLED(data_broadcast.connected)
-    
+
     print sensor_data
 
 
