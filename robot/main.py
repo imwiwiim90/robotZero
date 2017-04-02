@@ -8,6 +8,7 @@ import threading
 import random
 from distanceSensor import *
 import os
+import Routines
 
 CHUNK_SIZE = 4096
 
@@ -92,12 +93,9 @@ class Agent(object):
             self.speed = 0
 
     def setKeys(self,keys):
-        if self.in_routine:
-            print keys[u'buttons']
-            if keys[u'buttons'][u'T']:
-                self.in_routine = False
-            else:
-                return
+        if keys[u'buttons'][u'T']:
+            self.kill_routine()
+
         if keys[u'buttons'][u"S"]:
             if keys[u'arrows'][u'x'] == -1:
                 self.start_routine("seesaw")
@@ -134,31 +132,20 @@ class Agent(object):
     def lockServo(self,lock):
         self.serv_lock = lock
 
+    def kill_routine(self):
+        if self.routine != None:
+            self.routine.end()
+            self.routine = None
+
+
     def start_routine(self,name):
-        self.in_routine = True
+        #self.in_routine = True
 
         if name == "seesaw":
-            straight_time == 3
-            time_start = time.time()
-            speed_aux = self.speed
-            self.speed = 100
-            self.set_direction("front")
-            while True:
-                if not self.in_routine:
-                    break
-                if time.time() - time_start > straight_time:
-                    break
-                time.sleep(0.01)
-            self.speed = speed_aux
-            self.set_direction("steady")
+            self.routine = Routines.Seesaw(self)
         if name == "test":
-            while True:
-                time.sleep(0.5)
-                print "in routine"
-                if not self.in_routine:
-                    break
-
-        self.in_routine = False
+            self.routine = Routines.Test(self)
+        self.routine.start()
 
 
     def setServo(self,servo,val):
