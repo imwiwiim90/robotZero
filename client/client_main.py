@@ -16,19 +16,21 @@ mailer = MessageUDP()
 
 mailer.set_destination(ip_dir,8000)
 video = Video(mailer.socket,ip_dir,8000)
-
+udpReceiver = video.u
 video.start()
 
 
-i = 0
+
 while True:
 	time.sleep(1/30.0)
 	message = ctrl.getKeys()
 	#print message
-
+	if udpReceiver.in_routine == True:
+		if message["buttons"]['T'] == False:
+			continue
 	mailer.send(json.dumps(message))
 	img = video.getFrame()
 	cv2.imshow('stream',img)
 	if cv2.waitKey(1) & 0xFF == ord('q'):
 		break
-	i += 1
+

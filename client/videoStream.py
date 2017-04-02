@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import threading
 import time
+import json
 
 HEIGHT = 720
 WIDTH = 1280
@@ -60,6 +61,8 @@ class UDPreceiver(threading.Thread):
 		self.socket = _socket
 		self.lock = lock
 		self.chunks = []
+		self.in_routine = False
+
 
 	def run(self):
 		while True:
@@ -70,7 +73,10 @@ class UDPreceiver(threading.Thread):
 				self.chunks.append(msg[2:])
 				self.lock.release()
 			if flag == chr(0) + chr(1):
-				print msg[2:]
+				data = json.loads(msg[2:])
+				print data
+				self.in_routine = data[u'inRoutine']
+
 
 	def retrieve(self):
 		self.lock.acquire()
@@ -106,7 +112,7 @@ class FrameUpdater(threading.Thread):
 class Video(object):
 	def __init__(self,sckt,ip,port):
 		lock = threading.Lock()
-		u = UDPreceiver(sckt,lock)
+		self.u = UDPreceiver(sckt,lock)
 		img_manager = ImageManager(u,lock)
 		f = FrameUpdater(lock,img_manager)
 		self.threads = [ u , f , img_manager]

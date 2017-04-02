@@ -17,6 +17,13 @@ CHUNK_SIZE = 4096
 13 -> left - back
 4 -> right - front
 27 -> right - back
+18 -> serv
+20 -> serv
+21 -> serv
+19 -> dist
+26 -> dist
+5  -> dist
+6  -> dist
 """
 
 
@@ -26,6 +33,7 @@ class Agent(object):
         self.direction = 'steady'
         out_pins = [12,13,4,27]
         self.speed = 0
+        self.in_routine = False
         for pin in out_pins:
             GPIO.setup(pin,GPIO.OUT)
         self.pwms = [GPIO.PWM(pin,15) for pin in out_pins]
@@ -79,6 +87,18 @@ class Agent(object):
             self.speed = 0
 
     def setKeys(self,keys):
+        if self.in_routine:
+            if keys[u'buttons'] == 'T':
+                self.in_routine = False
+            else:
+                return
+        if keys[u'buttons'] == "S":
+            if keys[u'arrows'][u'x'] == -1:
+                self.start_routine("seesaw")
+            if keys[u'arrows'][u'x'] == 1:
+                self.start_routine("test")
+
+            return
         if keys[u'buttons'][u'R1']:
             self.change_velocity('up')
         if keys[u'buttons'][u'L1']:
@@ -107,6 +127,33 @@ class Agent(object):
 
     def lockServo(self,lock):
         self.serv_lock = lock
+
+    def start_routine(self,name):
+        self.in_routine = True
+
+        if name == "seesaw":
+            straight_time == 3
+            time_start = time.time()
+            speed_aux = self.speed
+            self.speed = 100
+            self.set_direction("front")
+            while True:
+                if not self.in_routine:
+                    break
+                if time.time() - time_start > straight_time:
+                    break
+                time.sleep(0.01)
+            self.speed = speed_aux
+            self.set_direction("steady")
+        if name == "test":
+            while True:
+                time.sleep(0.5)
+                print "in routine"
+                if not self.in_routine:
+                    break
+
+        self.in_routine = False
+
 
     def setServo(self,servo,val):
         if self.serv_lock == True:
@@ -287,6 +334,7 @@ while True:
         #"left" :  distanceSensors.get(0),
         #"right" : distanceSensors.get(1),
         "speed" : key_m.speed,
+        "inRoutine" : key_m.in_routine,
     }
     lock.acquire()
     data_broadcast.sendData(json.dumps(sensor_data),'sensor')
