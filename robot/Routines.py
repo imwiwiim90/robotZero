@@ -36,7 +36,7 @@ class Test(threading.Thread):
         while True:
             time.sleep(0.5)
             print "in routine"
-            if not self.terminate:
+            if self.terminate:
                 break
 
     def end(self):
