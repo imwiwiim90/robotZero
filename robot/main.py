@@ -182,16 +182,16 @@ class Agent(object):
             self.lockServo(True)
 
     def setMovement(self,x,y):
-        y = int((y+1)*5)/5.0 - 1
-        x = int((x+1)*5)/5.0 - 1
+        y = int((y+1)*100 - 100)
+        x = int((x+1)*100 - 100)
 
         left  = y - x
         right = y + x
 
-        left =  (1 if left >  1 else left)
-        left =  (-1 if left < -1 else left)
-        right = (-1 if right < -1 else right)
-        right = (1 if right >  1 else right)
+        left =  ( 100 if left  >  100 else left)
+        left =  (-100 if left  < -100 else left)
+        right = (-100 if right < -100 else right)
+        right = ( 100 if right >  100 else right)
 
         if left == self.last_left and right == self.last_right:
             return
