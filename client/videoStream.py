@@ -74,7 +74,7 @@ class UDPreceiver(threading.Thread):
 				self.lock.release()
 			if flag == chr(0) + chr(1):
 				data = json.loads(msg[2:])
-				print data
+				print (data + "[2J")
 				self.in_routine = data[u'inRoutine']
 
 

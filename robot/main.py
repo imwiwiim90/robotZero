@@ -54,7 +54,8 @@ class Agent(object):
         self.servo_pwm = int(self.pwm_range*0.055)
         wiringpi.pwmWrite(self.servo,self.servo_pwm) # 5.5% duty cycle
 
-        self.in_routine = None
+        self.in_routine = False
+        self.routine = None
         self.sensor_data = {
             "left" :  0,
             "right" : 0,
