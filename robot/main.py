@@ -350,6 +350,7 @@ while True:
     sensor_data = {
         "left" :  distanceSensors.get(0),
         "right" : distanceSensors.get(1),
+        "front" : distanceSensors.get(2),
         "speed" : key_m.speed,
         "inRoutine" : key_m.in_routine,
     }
