@@ -2,6 +2,7 @@ import socket
 import sys
 import time
 import RPi.GPIO as GPIO
+import wiringpi
 import json
 import camera
 import threading
@@ -43,13 +44,16 @@ class Agent(object):
             pwm.ChangeFrequency(15)
 
         # servos
-        self.servos = [{"pin":pin} for pin in [21]]
-
-        for serv in self.servos:
-            GPIO.setup(serv["pin"],GPIO.OUT)
-            serv["pwm"] = GPIO.PWM(serv["pin"],50)
-            serv["pwm"].start(5.5)
-            serv["dcycle"] = 5.5
+        self.servo = 18
+        wiringpi.wiringPiSetupGpio()
+        wiringpi.pinMode(self.servo, wiringpi.GPIO.PWM_OUTPUT)
+        wiringpi.pwmSetMode(wiringpi.GPIO.PWM_MODE_MS)
+        wiringpi.pwmSetClock(192)
+        self.pwm_range = 2000
+        wiringpi.pwmSetRange(self.pwm_range)
+        self.servo_pwm = int(self.pwm_range*0.055)
+        wiringpi.pwmWrite(self.servo,self.servo_pwm) # 5.5% duty cycle
+        
 
         self.last_right = 0
         self.last_left = 0
@@ -152,14 +156,13 @@ class Agent(object):
     def setServo(self,servo,val):
         if self.serv_lock == True:
             return
+        dcycle = val*6.5/2.0 + 2
+        dcycle = int(int(dcycle*3)/3.0*self.pwm_range)
 
-        dcycle = val*8.5/2.0 + 2
-        dcycle = int(dcycle*2)/2.0
-
-        lastv = self.servos[servo]['dcycle']
+        lastv = self.servo_pwm
         if lastv != dcycle:
-            self.servos[servo]['pwm'].ChangeDutyCycle(dcycle)
-            self.servos[servo]['dcycle'] = dcycle
+            wiringpi.pwmWrite(self.servo,dcycle)
+            self.servo_pwm = dcycle
 
     def setLED(self,state):
         GPIO.output(self.LED,state)
