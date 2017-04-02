@@ -247,6 +247,7 @@ class SocketListener(threading.Thread):
     def run(self):
         while True:
             msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
+            print msg
             self.bcast.addIP(addr)
             self.km.setKeys(json.loads(msg))
 
@@ -341,7 +342,7 @@ while True:
 
     key_m.setLED(data_broadcast.connected)
 
-    print sensor_data
+    #print sensor_data
 
 
 skt_manager.join()

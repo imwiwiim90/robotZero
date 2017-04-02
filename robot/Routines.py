@@ -35,6 +35,7 @@ class Test(threading.Thread):
     def run(self):
         while True:
             time.sleep(0.5)
+            print "in routine"
             if not self.terminate:
                 break
 
