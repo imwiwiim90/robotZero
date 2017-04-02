@@ -5,6 +5,7 @@ import cv2
 import threading
 import time
 import json
+import os
 
 HEIGHT = 720
 WIDTH = 1280
@@ -74,7 +75,9 @@ class UDPreceiver(threading.Thread):
 				self.lock.release()
 			if flag == chr(0) + chr(1):
 				data = json.loads(msg[2:])
-				print (data + "[2J")
+				os.system('clear')
+				for key in data.keys():
+					print str(key) + " : " + str(data[key])
 				self.in_routine = data[u'inRoutine']
 
 

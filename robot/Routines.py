@@ -8,12 +8,12 @@ class Seesaw(threading.Thread):
         self.terminate = False
 
     def run(self):
-        straight_time = 3
+        straight_time = 2
         time_start = time.time()
         speed_aux = agent.speed
         agent.speed = 100
-        agent.set_direction("front")
         while True:
+            agent.set_direction("front")
             if not self.terminate:
                 break
             if time.time() - time_start > straight_time:
@@ -49,9 +49,10 @@ class FollowWall(threading.Thread):
         self.terminate = False
 
     def run(self):
+        de
         while True:
-            time.sleep(0.5)
-            if self.terminate:
+                time.sleep(0.01)
+
                 break
 
     def end(self):

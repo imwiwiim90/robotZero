@@ -17,5 +17,4 @@ class MessageUDP(object):
 
 
 	def send(self,string):
-		print "sending"
 		self.socket.sendto(string, (self.host,self.port))
