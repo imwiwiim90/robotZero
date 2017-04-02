@@ -134,12 +134,13 @@ class Agent(object):
 
     def kill_routine(self):
         if self.routine != None:
+            self.in_routine = False
             self.routine.end()
             self.routine = None
 
 
     def start_routine(self,name):
-        #self.in_routine = True
+        self.in_routine = True
 
         if name == "seesaw":
             self.routine = Routines.Seesaw(self)
