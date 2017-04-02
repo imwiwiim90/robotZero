@@ -167,6 +167,13 @@ class Agent(object):
     def setLED(self,state):
         GPIO.output(self.LED,state)
 
+    def connected(self,state):
+        self.setLED(state)
+        if not state:
+            self.kill_routine()
+            self.set_direction("steady")
+            self.lockServo(True)
+
     def setMovement(self,x,y):
         y = int((y+1)*5)/5.0 - 1
         x = int((x+1)*5)/5.0 - 1

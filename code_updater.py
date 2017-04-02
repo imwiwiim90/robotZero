@@ -7,7 +7,7 @@ if output == 'ref.willy\n':
 	time.sleep(20)
 	subprocess.call(['git','reset','--hard'])
 	subprocess.call(['git','pull','origin','master'])
-	subprocess.call(['python','robot/main.py'])
+	subprocess.call(['sudo','python','robot/main.py'])
 else:
 	pass
 
