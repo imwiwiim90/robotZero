@@ -53,7 +53,14 @@ class Agent(object):
         wiringpi.pwmSetRange(self.pwm_range)
         self.servo_pwm = int(self.pwm_range*0.055)
         wiringpi.pwmWrite(self.servo,self.servo_pwm) # 5.5% duty cycle
-        
+
+        self.in_routine = None
+        self.sensor_data = {
+            "left" :  0,
+            "right" : 0,
+            "speed" : self.speed,
+            "inRoutine" : (self.in_routine == None),
+        }
 
         self.last_right = 0
         self.last_left = 0
@@ -332,7 +339,7 @@ data_broadcast = DataBroadcast(limit=1)
 #video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
 skt_manager = SocketListener(8000,data_broadcast,key_m)
 
-distanceSensors = DistanceSensors((5,19),(6,26))
+distanceSensors = DistanceSensors((5,19,17),(6,26,25))
 
 skt_manager.start()
 #video_broad.start()
@@ -346,6 +353,7 @@ while True:
         "speed" : key_m.speed,
         "inRoutine" : key_m.in_routine,
     }
+    keys_m.sensor_data = sensor_data
     lock.acquire()
     data_broadcast.sendData(json.dumps(sensor_data),'sensor')
     lock.release()

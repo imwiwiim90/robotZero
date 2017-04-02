@@ -41,3 +41,18 @@ class Test(threading.Thread):
 
     def end(self):
         self.terminate = True
+
+class FollowWall(threading,Thread):
+    def __init__( self,agent ):
+        threading.Thread.__init__(self)
+        self.agent = agent
+        self.terminate = False
+
+    def run(self):
+        while True:
+            time.sleep(0.5)
+            if self.terminate:
+                break
+
+    def end(self):
+        self.terminate = True
