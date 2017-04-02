@@ -42,7 +42,8 @@ class Agent(object):
             pwm.ChangeFrequency(15)
 
         # servos
-        self.servos = [{"pin":pin} for pin in [20,21]]
+        self.servos = [{"pin":pin} for pin in [21]]
+
         for serv in self.servos:
             GPIO.setup(serv["pin"],GPIO.OUT)
             serv["pwm"] = GPIO.PWM(serv["pin"],50)
@@ -51,6 +52,10 @@ class Agent(object):
 
         self.last_right = 0
         self.last_left = 0
+
+        self.LED = 20
+        GPIO.setup(  self.LED, GPIO.OUT )
+        GPIO.output( self.LED, 1 )
 
 
         
@@ -168,6 +173,9 @@ class Agent(object):
             self.servos[servo]['pwm'].ChangeDutyCycle(dcycle)
             self.servos[servo]['dcycle'] = dcycle
 
+    def setLED(self,state):
+        GPIO.output(self.LED,state)
+
     def setMovement(self,x,y):
         y = int((y+1)*5)/5.0 - 1
         x = int((x+1)*5)/5.0 - 1
@@ -281,6 +289,7 @@ class DataBroadcast(object):
     def __init__(self,limit=2):
         self.ips = {}
         self.limit = limit
+        self.connected = True
 
 
     def addIP(self,addr):
@@ -300,9 +309,10 @@ class DataBroadcast(object):
         for ip in self.ips.keys():
             try:
                 self.sckt.sendto( flag + msg , self.ips[ip])
+                self.connected = True
             except socket.error, (no,msg):
                 if no == socket.errno.ENETUNREACH:
-                    pass
+                    self.connected = False
     def set_socket(self,skt):
         self.sckt = skt
 
@@ -340,6 +350,9 @@ while True:
     lock.acquire()
     data_broadcast.sendData(json.dumps(sensor_data),'sensor')
     lock.release()
+
+    key_m.setLED(data_broadcast.connected)
+    
     print sensor_data
 
 

@@ -26,6 +26,7 @@ while True:
 	message = ctrl.getKeys()
 	#print message
 	if udpReceiver.in_routine == True:
+		print message["buttons"]['T']
 		if message["buttons"]['T'] == False:
 			continue
 	mailer.send(json.dumps(message))
