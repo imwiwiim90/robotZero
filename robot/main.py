@@ -353,7 +353,7 @@ while True:
         "speed" : key_m.speed,
         "inRoutine" : key_m.in_routine,
     }
-    keys_m.sensor_data = sensor_data
+    key_m.sensor_data = sensor_data
     lock.acquire()
     data_broadcast.sendData(json.dumps(sensor_data),'sensor')
     lock.release()
