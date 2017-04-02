@@ -156,7 +156,7 @@ class Agent(object):
     def setServo(self,servo,val):
         if self.serv_lock == True:
             return
-        dcycle = val*6.5/2.0 + 2
+        dcycle = val*8/2.0 + 2
         dcycle = int((int(dcycle*3)/3.0)/100.0*self.pwm_range)
 
         lastv = self.servo_pwm
