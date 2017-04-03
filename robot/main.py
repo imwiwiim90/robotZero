@@ -42,7 +42,8 @@ class Agent(object):
         for pwm in self.pwms:
             pwm.start(self.speed)
             pwm.ChangeFrequency(15)
-
+        # distances
+        self.distances = [0 for i in range(3)]
         # servos
         self.servo = 18
         wiringpi.wiringPiSetupGpio()
@@ -104,6 +105,8 @@ class Agent(object):
             self.speed = 100
         if self.speed < 0:
             self.speed = 0
+    def setDistance(self,i,d):
+        self.distances[i] = d
 
     def setKeys(self,keys):
         if self.in_routine:
@@ -117,7 +120,8 @@ class Agent(object):
                 self.start_routine("seesaw")
             if keys[u'arrows'][u'x'] == 1:
                 self.start_routine("test")
-
+            if keys[u'arrows'][u'y'] == 1:
+                self.start_routine("straight_walls")
             return
 
         if keys[u'buttons'][u'R1']:
@@ -166,6 +170,8 @@ class Agent(object):
             self.routine = Routines.Seesaw(self)
         if name == "test":
             self.routine = Routines.Test(self)
+        if name == "straight_walls":
+            self.routine = Routines.StraightWalls(self)
         self.routine.start()
 
 
@@ -362,7 +368,7 @@ data_broadcast = DataBroadcast(limit=1)
 #video_broad = VideoBroadcast(camera.VideoCamera(),lock,data_broadcast)
 skt_manager = SocketListener(8000,data_broadcast,key_m)
 
-distanceSensors = DistanceSensors((5,19,17),(6,26,25))
+distanceSensors = DistanceSensors((5,19,17),(6,26,25),key_m)
 
 skt_manager.start()
 #video_broad.start()

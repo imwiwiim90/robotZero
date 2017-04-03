@@ -22,6 +22,7 @@ class Seesaw(threading.Thread):
             time.sleep(0.01)
         agent.speed = speed_aux
         agent.set_direction("steady")
+        self.end()
 
     def end(self):
         self.terminate = True
@@ -50,11 +51,43 @@ class FollowWall(threading.Thread):
         self.terminate = False
 
     def run(self):
-        de
         while True:
                 time.sleep(0.01)
-
                 break
+
+    def end(self):
+        self.terminate = True
+
+class StraightWalls(threading.Thread):
+    def __init__( self,agent ):
+        threading.Thread.__init__(self)
+        self.agent = agent
+        self.terminate = False
+
+    def run(self):
+        agent = self.agent
+        speed_aux   = agent.speed
+        agent.setMovement(0,0.5)
+        turn_state = "left"
+        while True:
+            if self.terminate:
+                break
+            if turn_state == "left":
+                if agent.distaces[0] < 25:
+                    turn_state = "right"
+                    agent.setMovement(-0.2,0.5)
+                if agent.distaces[1] < 16:
+                    agent.setMovement(0.4,0.5)
+            if turn_state == "right":
+                if agent.distaces[1] < 25:
+                    turn_state = "left"
+                    agent.setMovement(0.2,0.5)
+                if agent.distaces[0] < 16:
+                    agent.setMovement(-0.4,0.5)
+            time.sleep(0.01)
+        agent.speed = speed_aux
+        agent.set_direction("steady")
+        self.end()
 
     def end(self):
         self.terminate = True

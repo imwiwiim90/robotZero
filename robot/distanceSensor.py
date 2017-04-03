@@ -4,14 +4,14 @@ import threading
 
 
 class DistanceSensors(threading.Thread):
-	def __init__(self,TRIG,ECHO,N = 5):
+	def __init__(self,TRIG,ECHO,agent,N = 5):
 		threading.Thread.__init__(self)
 		GPIO.setmode(GPIO.BCM)
 		self.echo = ECHO
 		self.trig = TRIG
 		GPIO.setup(TRIG,GPIO.OUT)
 		GPIO.setup(ECHO,GPIO.IN,pull_up_down=GPIO.PUD_UP)
-
+		self.agent = agent
 		GPIO.output(TRIG,0)
 		time.sleep(0.5)
 		self.distance = {channel:0 for channel in ECHO}
@@ -25,6 +25,7 @@ class DistanceSensors(threading.Thread):
 
 	def echo_callback(self,channel):
 		self.distance[channel] = (time.time() - self.time_start[channel])*17150
+		agent.setDistance(self.echo.index(channel),self.distance[channel])
 
 
 	def run(self):
