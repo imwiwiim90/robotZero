@@ -25,7 +25,7 @@ class DistanceSensors(threading.Thread):
 
 	def echo_callback(self,channel):
 		self.distance[channel] = (time.time() - self.time_start[channel])*17150
-		agent.setDistance(self.echo.index(channel),self.distance[channel])
+		self.agent.setDistance(self.echo.index(channel),self.distance[channel])
 
 
 	def run(self):
