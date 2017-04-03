@@ -188,7 +188,7 @@ class Agent(object):
             self.servo_pwm = self.pwm_range*0.085
         if self.servo_pwm < self.pwm_range*0.02:
             self.servo_pwm = self.pwm_range*0.02
-        wiringpi.pwmWrite(self.servo,self.servo_pwm)
+        wiringpi.pwmWrite(self.servo,int(self.servo_pwm))
         self.servo_time_set = time.time()
 
     def setLED(self,state):
@@ -373,7 +373,7 @@ while True:
         "front" : distanceSensors.get(2),
         "speed" : key_m.speed,
         "inRoutine" : key_m.in_routine,
-        "claw" : key_m.servo_pwm,
+        "claw" : (key_m.servo_pwm/key_m.pwm_range*100-2)*8.5,
     }
     key_m.sensor_data = sensor_data
     lock.acquire()
