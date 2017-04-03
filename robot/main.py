@@ -106,8 +106,11 @@ class Agent(object):
             self.speed = 0
 
     def setKeys(self,keys):
-        if keys[u'buttons'][u'T']:
-            self.kill_routine()
+        if self.in_routine:
+            if keys[u'buttons'][u'T']:
+                self.kill_routine()
+            else:
+                return
 
         if keys[u'buttons'][u"S"]:
             if keys[u'arrows'][u'x'] == -1:

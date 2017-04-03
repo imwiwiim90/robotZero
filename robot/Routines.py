@@ -10,11 +10,11 @@ class Seesaw(threading.Thread):
     def run(self):
         agent = self.agent
         straight_time = 2
-        time_start = time.time()
-        speed_aux = agent.speed
+        time_start  = time.time()
+        speed_aux   = agent.speed
         agent.speed = 100
+        agent.set_direction("front")
         while True:
-            agent.set_direction("front")
             if not self.terminate:
                 break
             if time.time() - time_start > straight_time:
