@@ -15,7 +15,7 @@ class Seesaw(threading.Thread):
         agent.speed = 100
         agent.set_direction("front")
         while True:
-            if not self.terminate:
+            if self.terminate:
                 break
             if time.time() - time_start > straight_time:
                 break
