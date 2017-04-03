@@ -10,7 +10,7 @@ lock = threading.Lock()
 
 ip_dir = '192.168.0.13'
 #ip_dir = '127.0.0.1'
-
+#ip_dir = '186.28.50.10'
 ctrl = PS4Controller()
 mailer = MessageUDP()
 
