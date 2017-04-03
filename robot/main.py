@@ -10,6 +10,7 @@ import random
 from distanceSensor import *
 import os
 import Routines
+import subprocess
 
 CHUNK_SIZE = 4096
 
@@ -174,6 +175,8 @@ class Agent(object):
             self.routine = Routines.StraightWalls(self)
         self.routine.start()
 
+    def restart(self):
+        ps = subprocess.Popen("ps | grep python | awk '{print $1}' | xargs kill",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 
     def setServo(self,direction):
         #if self.serv_lock == True:

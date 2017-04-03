@@ -39,13 +39,16 @@ class PS4Controller(object):
                 "R3" : j.buttons[11],
                 "L2" : j.buttons[6],
                 "PLAY" : j.buttons[12],
+                "L3" : j.buttons[10],
+                "OPTIONS": j.buttons[9],
+                "SHARE": j.buttons[8],
+                "PAD": j.buttons[13],
             },
 		}
 
 		j.close()
 		return keys
-"""
+
 p = PS4Controller()
 while True:
 	print p.getKeys()
-"""

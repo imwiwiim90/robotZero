@@ -72,18 +72,7 @@ class StraightWalls(threading.Thread):
         while True:
             if self.terminate:
                 break
-            if turn_state == "left":
-                if agent.distances[0] < 30:
-                    turn_state = "right"
-                    agent.setMovement(-0.05,0.5)
-                if agent.distances[1] < 25:
-                    agent.setMovement(0.4,0.5)
-            if turn_state == "right":
-                if agent.distances[1] < 30:
-                    turn_state = "left"
-                    agent.setMovement(0.1,0.5)
-                if agent.distances[0] < 25:
-                    agent.setMovement(-0.3,0.5)
+            agent.setMovement((agent.distances[1]-agent.distances[0])*0.01,0.5)
             time.sleep(0.01)
         agent.speed = speed_aux
         agent.set_direction("steady")
