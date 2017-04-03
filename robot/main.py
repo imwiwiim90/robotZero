@@ -373,7 +373,7 @@ while True:
         "front" : distanceSensors.get(2),
         "speed" : key_m.speed,
         "inRoutine" : key_m.in_routine,
-        "claw" : (key_m.servo_pwm/key_m.pwm_range*100-2)/8.5*100,
+        "claw" : (key_m.servo_pwm/key_m.pwm_range*100-2)/6.5*100,
     }
     key_m.sensor_data = sensor_data
     lock.acquire()
