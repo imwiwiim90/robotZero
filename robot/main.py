@@ -65,6 +65,7 @@ class Agent(object):
 
         self.last_right = 0
         self.last_left = 0
+        self.servo_time_set = time.time()
 
         self.LED = 20
         GPIO.setup(  self.LED, GPIO.OUT )
@@ -139,7 +140,11 @@ class Agent(object):
 
         self.lockServo(keys[u'buttons'][u'X'])
 
-        self.setServo(0,keys[u'back_buttons'][u'R'])
+
+        if keys[u'buttons'][u'R2']:
+            self.setServo("up")
+        elif keys[u'buttons'][u'L2']:
+            self.setServo("down")
 
     def lockServo(self,lock):
         self.serv_lock = lock
@@ -161,16 +166,30 @@ class Agent(object):
         self.routine.start()
 
 
-    def setServo(self,servo,val):
-        if self.serv_lock == True:
-            return
-        dcycle = val*8/2.0 + 2
-        dcycle = int((int(dcycle*3)/3.0)/100.0*self.pwm_range)
+    def setServo(self,direction):
+        #if self.serv_lock == True:
+        #    return
+        #dcycle = val*8/2.0 + 2
+        #dcycle = int((int(dcycle*3)/3.0)/100.0*self.pwm_range)
 
-        lastv = self.servo_pwm
-        if lastv != dcycle:
-            wiringpi.pwmWrite(self.servo,dcycle)
-            self.servo_pwm = dcycle
+        #lastv = self.servo_pwm
+        #if lastv != dcycle:
+        #    wiringpi.pwmWrite(self.servo,dcycle)
+        #    self.servo_pwm = dcycle
+        if time.time() - self.servo_time_set < 0.1:
+            return
+
+        if direction == "up":
+            self.servo_pwm += self.pwm_range*0.002
+        if direction == "down":
+            self.servo_pwm -= self.pwm_range*0.002
+
+        if self.servo_pwm > self.pwm_range*0.085:
+            self.servo_pwm = self.pwm_range*0.085
+        if self.servo_pwm < self.pwm_range*0.02:
+            self.servo_pwm = self.pwm_range*0.02
+        wiringpi.pwmWrite(self.servo,self.servo_pwm)
+        self.servo_time_set = time.time()
 
     def setLED(self,state):
         GPIO.output(self.LED,state)
@@ -354,6 +373,7 @@ while True:
         "front" : distanceSensors.get(2),
         "speed" : key_m.speed,
         "inRoutine" : key_m.in_routine,
+        "claw" : key_m.servo_pwm,
     }
     key_m.sensor_data = sensor_data
     lock.acquire()
