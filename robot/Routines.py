@@ -72,7 +72,7 @@ class StraightWalls(threading.Thread):
         while True:
             if self.terminate:
                 break
-            agent.setMovement((agent.distances[0]-agent.distances[1])*0.01 + - 0.02,1)
+            agent.setMovement((agent.distances[0]-agent.distances[1])*0.04 + - 0.02,1)
             time.sleep(0.01)
         agent.speed = speed_aux
         agent.set_direction("steady")
