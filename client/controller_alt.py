@@ -48,7 +48,8 @@ class PS4Controller(object):
 
 		j.close()
 		return keys
-
+"""
 p = PS4Controller()
 while True:
 	print p.getKeys()
+"""

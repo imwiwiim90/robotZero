@@ -125,7 +125,7 @@ class Agent(object):
                 self.start_routine("straight_walls")
             return
         if keys[u'buttons'][u'PAD']:
-            self.reset()
+            self.restart()
 
         if keys[u'buttons'][u'R1']:
             self.change_velocity('up')
