@@ -124,6 +124,8 @@ class Agent(object):
             if keys[u'arrows'][u'y'] == 1:
                 self.start_routine("straight_walls")
             return
+        if keys[u'buttons'][u'PAD']:
+            self.reset()
 
         if keys[u'buttons'][u'R1']:
             self.change_velocity('up')
@@ -176,7 +178,7 @@ class Agent(object):
         self.routine.start()
 
     def restart(self):
-        ps = subprocess.Popen("ps | grep python | awk '{print $1}' | xargs kill",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+        ps = subprocess.Popen("python tester.py",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 
     def setServo(self,direction):
         #if self.serv_lock == True:
