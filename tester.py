@@ -1,5 +1,6 @@
 import subprocess
 import time
+subprocess.call("cd ~/Desktop/robotZero/",shell=True)
 ps = subprocess.Popen("ps auc| grep python | wc -l ",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 n = int(ps.communicate(0)[0].strip())
 ps = subprocess.Popen("ps auc| grep python | awk '{print $2}'| sort  | head -n" + str(n-1) + "| sudo xargs kill ",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)

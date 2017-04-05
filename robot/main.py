@@ -124,7 +124,7 @@ class Agent(object):
             if keys[u'arrows'][u'y'] == 1:
                 self.start_routine("straight_walls")
             return
-        if keys[u'buttons'][u'PAD']:
+        if keys[u'buttons'][u'SHARE']:
             self.restart()
 
         if keys[u'buttons'][u'R1']:
@@ -178,7 +178,7 @@ class Agent(object):
         self.routine.start()
 
     def restart(self):
-        ps = subprocess.Popen("python tester.py",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+        ps = subprocess.Popen("python ~/Desktop/robotZero/tester.py",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 
     def setServo(self,direction):
         #if self.serv_lock == True:
@@ -294,6 +294,7 @@ class SocketListener(threading.Thread):
         print 'Socket bind complete'
         self.sckt = s
         self.bcast.set_socket(s)
+
 
     def run(self):
         while True:
