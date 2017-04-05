@@ -178,7 +178,7 @@ class Agent(object):
         self.routine.start()
 
     def restart(self):
-        ps = subprocess.Popen("python ~/Desktop/robotZero/tester.py",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+        ps = subprocess.Popen("python /home/pi/Desktop/robotZero/tester.py",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 
     def setServo(self,direction):
         #if self.serv_lock == True:

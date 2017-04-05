@@ -1,6 +1,6 @@
 import subprocess
 import time
-subprocess.call("cd ~/Desktop/robotZero/",shell=True)
+subprocess.call("cd /home/pi/Desktop/robotZero/",shell=True)
 ps = subprocess.Popen("ps auc| grep python | wc -l ",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
 n = int(ps.communicate(0)[0].strip())
 if n > 1:
