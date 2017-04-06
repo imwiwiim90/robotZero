@@ -113,6 +113,7 @@ class Agent(object):
         if self.in_routine:
             if keys[u'buttons'][u'T']:
                 self.kill_routine()
+                self.in_routine = False
             else:
                 return
 

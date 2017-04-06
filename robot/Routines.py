@@ -43,6 +43,31 @@ class Test(threading.Thread):
 
     def end(self):
         self.terminate = True
+class releaseBolt(threading.Thread):
+    def __init__( self,agent ):
+        threading.Thread.__init__(self)
+        self.agent = agent
+        self.terminate = False
+
+    def run(self):
+        agent = self.agent
+        straight_time = 0.3
+        time_start  = time.time()
+        speed_aux   = agent.speed
+        agent.speed = 100
+        agent.set_direction("back")
+        while True:
+            if self.terminate:
+                break
+            if time.time() - time_start > straight_time:
+                break
+            time.sleep(0.01)
+        agent.speed = speed_aux
+        agent.set_direction("steady")
+        self.end()
+
+    def end(self):
+        self.terminate = True
 
 class FollowWall(threading.Thread):
     def __init__( self,agent ):
