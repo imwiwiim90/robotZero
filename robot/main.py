@@ -124,6 +124,9 @@ class Agent(object):
                 self.start_routine("test")
             if keys[u'arrows'][u'y'] == 1:
                 self.start_routine("straight_walls")
+            if keys[u'arrows'][u'y'] == -1:
+                self.start_routine("release_bolt")
+
             return
         if keys[u'buttons'][u'SHARE']:
             sckt.end()
@@ -178,6 +181,9 @@ class Agent(object):
             self.routine = Routines.Test(self)
         if name == "straight_walls":
             self.routine = Routines.StraightWalls(self)
+        if name == "release_bolt":
+            self.routint = Routines.ReleaseBolt(self)
+
         self.routine.start()
 
     def restart(self):

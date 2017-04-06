@@ -43,7 +43,7 @@ class Test(threading.Thread):
 
     def end(self):
         self.terminate = True
-class releaseBolt(threading.Thread):
+class ReleaseBolt(threading.Thread):
     def __init__( self,agent ):
         threading.Thread.__init__(self)
         self.agent = agent
