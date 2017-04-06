@@ -69,17 +69,48 @@ class ReleaseBolt(threading.Thread):
     def end(self):
         self.terminate = True
 
-class FollowWall(threading.Thread):
+
+class FollowWallLeft(threading.Thread):
     def __init__( self,agent ):
         threading.Thread.__init__(self)
         self.agent = agent
         self.terminate = False
 
     def run(self):
+        agent = self.agent
+        speed_aux   = agent.speed
+        distance = agent.distances[0]
         while True:
-                time.sleep(0.01)
+            if self.terminate:
                 break
+            agent.setMovement((agent.distances[0]-distance)*0.02,0.3)
+            time.sleep(0.01)
+        agent.speed = speed_aux
+        agent.set_direction("steady")
+        self.end()
 
+    def end(self):
+        self.terminate = True
+
+class FollowWallRight(threading.Thread):
+    def __init__( self,agent ):
+        threading.Thread.__init__(self)
+        self.agent = agent
+        self.terminate = False
+
+    def run(self):
+        agent = self.agent
+        speed_aux   = agent.speed
+        distance = agent.distances[1]
+        while True:
+            if self.terminate:
+                break
+            agent.setMovement((distance-agent.distances[1])*0.02,0.3)
+            time.sleep(0.01)
+        agent.speed = speed_aux
+        agent.set_direction("steady")
+        self.end()
+        
     def end(self):
         self.terminate = True
 

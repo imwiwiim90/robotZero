@@ -126,6 +126,11 @@ class Agent(object):
                 self.start_routine("straight_walls")
             if keys[u'arrows'][u'y'] == -1:
                 self.start_routine("release_bolt")
+            if keys[u'buttons'][u'L1']:
+                self.start_routine("follow_wall_left")
+            if keys[u'buttons'][u'R1'] == -1:
+                self.start_routine("follow_wall_right")
+
 
             return
         if keys[u'buttons'][u'SHARE']:
@@ -183,7 +188,10 @@ class Agent(object):
             self.routine = Routines.StraightWalls(self)
         if name == "release_bolt":
             self.routine = Routines.ReleaseBolt(self)
-
+        if name == "follow_wall_left":
+            self.routine = Routines.FollowWallLeft(self)
+        if name == "follow_wall_right":
+            self.routine = Routines.FollowWallRight(self)
         self.routine.start()
 
     def restart(self):
