@@ -182,7 +182,7 @@ class Agent(object):
         if name == "straight_walls":
             self.routine = Routines.StraightWalls(self)
         if name == "release_bolt":
-            self.routint = Routines.ReleaseBolt(self)
+            self.routine = Routines.ReleaseBolt(self)
 
         self.routine.start()
 
