@@ -303,7 +303,11 @@ class SocketListener(threading.Thread):
             msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
             print msg
             self.bcast.addIP(addr)
-            self.km.setKeys(json.loads(msg),self)
+            try:
+                json_keys = json.loads(msg)
+                self.km.setKeys(json_keys,self)
+            except:
+                pass
 
     def end(self):
         self.sckt.close()
