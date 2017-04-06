@@ -1,4 +1,5 @@
-cd /home/pi/Dekstop/robotZero
+cd /home/pi/Desktop/robotZero
 ps auc | grep python | awk '{print $2}' | sudo xargs kill
-sleep 1
+git reset --hard
+git pull origin master
 sudo python robot/main.py
