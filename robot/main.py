@@ -109,7 +109,7 @@ class Agent(object):
     def setDistance(self,i,d):
         self.distances[i] = d
 
-    def setKeys(self,keys):
+    def setKeys(self,keys,sckt):
         if self.in_routine:
             if keys[u'buttons'][u'T']:
                 self.kill_routine()
@@ -125,7 +125,9 @@ class Agent(object):
                 self.start_routine("straight_walls")
             return
         if keys[u'buttons'][u'SHARE']:
+            sckt.end()
             self.restart()
+            sys.exit()
 
         if keys[u'buttons'][u'R1']:
             self.change_velocity('up')
@@ -178,7 +180,7 @@ class Agent(object):
         self.routine.start()
 
     def restart(self):
-        ps = subprocess.Popen("python /home/pi/Desktop/robotZero/tester.py",shell=True,stdout=subprocess.PIPE,stderr=subprocess.STDOUT)
+        ps = subprocess.Popen("bash /home/pi/Desktop/robotZero/hard_updater.sh",shell=True)
 
     def setServo(self,direction):
         #if self.serv_lock == True:
@@ -301,8 +303,10 @@ class SocketListener(threading.Thread):
             msg, addr = self.sckt.recvfrom(CHUNK_SIZE)
             print msg
             self.bcast.addIP(addr)
-            self.km.setKeys(json.loads(msg))
+            self.km.setKeys(json.loads(msg),self)
 
+    def end(self):
+        self.sckt.close()
             
 class VideoBroadcast(threading.Thread):
     def __init__(self,camera,lock,d_bcast):
