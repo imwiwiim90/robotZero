@@ -200,8 +200,8 @@ class Agent(object):
         if direction == "down":
             self.servo_pwm -= self.pwm_range*0.002
 
-        if self.servo_pwm > self.pwm_range*0.1:
-            self.servo_pwm = self.pwm_range*0.1
+        if self.servo_pwm > self.pwm_range*0.12:
+            self.servo_pwm = self.pwm_range*0.12
         if self.servo_pwm < self.pwm_range*0.02:
             self.servo_pwm = self.pwm_range*0.02
         wiringpi.pwmWrite(self.servo,int(self.servo_pwm))
@@ -396,7 +396,7 @@ while True:
         "front" : distanceSensors.get(2),
         "speed" : key_m.speed,
         "inRoutine" : key_m.in_routine,
-        "claw" : (key_m.servo_pwm/key_m.pwm_range*100-2)/8*100,
+        "claw" : (key_m.servo_pwm/key_m.pwm_range*100-2)/10*100,
     }
     key_m.sensor_data = sensor_data
     lock.acquire()
