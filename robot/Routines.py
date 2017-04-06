@@ -83,7 +83,7 @@ class FollowWallLeft(threading.Thread):
         while True:
             if self.terminate:
                 break
-            agent.setMovement((agent.distances[0]-distance)*0.02,0.3)
+            agent.setMovement((agent.distances[0]-distance)*0.02,0.15)
             time.sleep(0.01)
         agent.speed = speed_aux
         agent.set_direction("steady")
@@ -105,12 +105,12 @@ class FollowWallRight(threading.Thread):
         while True:
             if self.terminate:
                 break
-            agent.setMovement((distance-agent.distances[1])*0.02,0.3)
+            agent.setMovement((distance-agent.distances[1])*0.02,0.15)
             time.sleep(0.01)
         agent.speed = speed_aux
         agent.set_direction("steady")
         self.end()
-        
+
     def end(self):
         self.terminate = True
 

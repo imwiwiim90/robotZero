@@ -128,7 +128,7 @@ class Agent(object):
                 self.start_routine("release_bolt")
             if keys[u'buttons'][u'L1']:
                 self.start_routine("follow_wall_left")
-            if keys[u'buttons'][u'R1'] == -1:
+            if keys[u'buttons'][u'R1']:
                 self.start_routine("follow_wall_right")
 
 
