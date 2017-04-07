@@ -51,7 +51,7 @@ class ReleaseBolt(threading.Thread):
 
     def run(self):
         agent = self.agent
-        straight_time = 0.1
+        straight_time = 0.12
         time_start  = time.time()
         speed_aux   = agent.speed
         agent.speed = 100
