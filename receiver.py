@@ -18,3 +18,4 @@ msg = ""
 while str(msg) != "exit":
     msg, addr = s.recvfrom(CHUNK_SIZE)
     print msg
+#http://190.24.142.149:5000/monitor2.htm#
