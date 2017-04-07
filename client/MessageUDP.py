@@ -17,4 +17,7 @@ class MessageUDP(object):
 
 
 	def send(self,string):
-		self.socket.sendto(string, (self.host,self.port))
+		try:
+			self.socket.sendto(string, (self.host,self.port))
+		except:
+			print "connection unsuccesful"
