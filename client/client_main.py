@@ -8,14 +8,15 @@ import time
 
 lock = threading.Lock()
 
-#ip_dir = '192.168.0.5'
+ip_dir = '192.168.0.5'
 #ip_dir = '127.0.0.1'
-ip_dir = '186.31.47.239'
+#ip_dir = '186.31.47.239'
+PORT = 8000
 ctrl = PS4Controller()
 mailer = MessageUDP()
 
-mailer.set_destination(ip_dir,5050)
-video = Video(mailer.socket,ip_dir,5050)
+mailer.set_destination(ip_dir,PORT)
+video = Video(mailer.socket,ip_dir,PORT)
 udpReceiver = video.u
 video.start()
 

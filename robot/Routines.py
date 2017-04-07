@@ -9,7 +9,7 @@ class Seesaw(threading.Thread):
 
     def run(self):
         agent = self.agent
-        straight_time = 1.5
+        straight_time = 0.8
         time_start  = time.time()
         speed_aux   = agent.speed
         agent.speed = 100
@@ -51,7 +51,7 @@ class ReleaseBolt(threading.Thread):
 
     def run(self):
         agent = self.agent
-        straight_time = 0.12
+        straight_time = 0.1
         time_start  = time.time()
         speed_aux   = agent.speed
         agent.speed = 100
